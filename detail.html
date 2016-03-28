@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mystyle.css" />
+		<link rel="stylesheet" href="css/style.css" />
+		<style>
+			h1 {
+				font-size: 24px;
+			}
+			
+			h2 {
+				font-size: 21px;
+			}
+			
+			h3 {
+				font-size: 19px;
+			}
+			
+			h4 {
+				font-size: 17px;
+			}
+			
+			h5 {
+				font-size: 15px;
+			}
+			
+			.title {
+				padding: 10px 0;
+				  /*border-bottom:1px solid #BBBBBB;*/
+			}
+			
+			.page-content {
+				display: block;
+				font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+				font-size: 16px;
+				line-height 25.6px;
+				margin: 0px;
+				padding: 0 10px 10px 10px;
+				word-wrap: break-word;
+			}
+			
+			img {
+				max-width: 100%;
+			}
+			
+			.aligncenter {
+				display: block;
+				margin: 0 auto 10px;
+			}
+			.alignleft{
+				display: block;
+				margin: 0 0 10px auto;
+			}
+		</style>
+	</head>
+
+	<body id="de">
+		<my-header title="文章详情" lefticon="mui-icon-left-nav"></my-header>
+
+		<div class="mui-content page-content" id="content">
+			<div class="spinner" v-if="loading">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+			</div>
+			<div class="title">
+				<h1>{{title}}</h1>
+			</div>
+
+			{{{content}}}
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init();
+			detail = new Vue({
+				el: '#de',
+				data: {
+					title: '',
+					content: '',
+					loading:1
+				}
+			})
+			var wp = new WP();
+			window.addEventListener('getDetail', function(event) {
+				detail.title = '';
+				detail.content = ''
+				detail.loading = 1;
+					//获得事件参数
+				var id = event.detail.id;
+				wp.getData({
+					route: 'posts/' + id,
+					data: {},
+					success: function(data) {
+						detail.title = data.title.rendered;
+						detail.content = data.content.rendered;
+						detail.loading = 0;
+					},
+					error: function() {
+						alert('sss')
+						detail.loading = 0;
+					}
+				})
+			});
+			mui('body').on('tap', 'a', function(e) {
+				alert(11)
+				
+			});
+
+		</script>
+	</body>
+
+</html>

@@ -19,6 +19,19 @@
 			"js/app.js",
 			"js/vue.js",
 			"img/shuijiao.jpg"
+		],
+		"refer": [
+			"detail.html"
+		]
+	},
+	"detail.html": {
+		"resources": [
+			"js/app.js",
+			"js/vue.js",
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"css/mystyle.css"
 		]
 	}
 }

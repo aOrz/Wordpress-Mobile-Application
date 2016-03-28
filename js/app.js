@@ -4,27 +4,27 @@ Vue.config.debug = true
 	 */
 app = {
 		basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
-		per_page:20
+		per_page: 20
 	}
 	/*
 	 * 组件
 	 */
 	//头部组件
 var MyHeader = Vue.extend({
-		props: ['left-icon', 'title', 'right-icon'],
+		props: ['lefticon', 'title', 'righticon'],
 		template: '<header class="mui-bar mui-bar-nav">' +
-			'<a class="mui-action-back mui-icon {{left-icon}} mui-pull-left"></a>' +
+			'<a class="mui-action-back mui-icon {{lefticon}} mui-pull-left"></a>' +
 			'<h1 class="mui-title">{{title}}</h1>' +
-			'<a class="mui-action-back mui-icon {{right-icon}} mui-pull-right"></a>' +
+			'<a class="mui-action-back mui-icon {{righticon}} mui-pull-right"></a>' +
 			'</header>'
 	})
 	//图文列表组件
 var MyImgList = Vue.extend({
-		props: ['title', 'excerpt'],
-		template: '<li class="mui-table-view-cell mui-media">' +
-			'<a href="javascript:;">' +
-			//			'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
-			'<div class="mui-media-body">' +
+		props: ['title', 'excerpt', 'id'],
+		template: '<li class="mui-table-view-cell mui-media" data-id="{{id}}">' +
+			'<a href="javascript:;" data-id="{{id}}">' +
+			//'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
+			'<div class="mui-media-body" >' +
 			'{{title}}' +
 			'<p class="mui-ellipsis">{{{excerpt}}}</p>' +
 			'</div>' +
@@ -43,7 +43,7 @@ var WP = function() {
 }
 WP.prototype.getData = function(inData) {
 	var url = inData.url || app.basic_url;
-	inData.data = inData.data||{};
+	inData.data = inData.data || {};
 	inData.data.per_page = app.per_page;
 	mui.ajax(url + inData.route, {
 		data: inData.data,

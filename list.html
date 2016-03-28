@@ -17,7 +17,9 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-table-view">
-					<my-img-list v-for="item in imglist" :item="item" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="item.id"></my-img-list>
+					<my-img-list v-for="item in imglist" :id="item.id" :title="item.title.rendered" :excerpt="item.excerpt.rendered" v-on:detail="detail">
+
+					</my-img-list>
 				</ul>
 			</div>
 		</div>
@@ -25,57 +27,63 @@
 		<script type="text/javascript" src="js/vue.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
 		<script>
-		var wp =new WP();
+			var wp = new WP();
 			/*
 			 * VUE
 			 */
 			var list = new Vue({
-					el: 'body',
-					data: {
-						imglist:new Array(),
-						page:1
-					},
-					methods: {
-						pullupRefresh: function() {
+				el: 'body',
+				data: {
+					imglist: new Array(),
+					page: 1
+				},
+				methods: {
+					pullupRefresh: function() {
 						wp.getData({
-								route:'posts',
-								data:{
-									page:this.page++
-								},
-								success:function(data){
-									list.imglist=list.imglist.concat(data);
-									var next = list.imglist.length<app.per_page?1:0;
-									mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
-//									console.log('上');
-								},
-								error:function(){
-									mui('#pullrefresh').pullRefresh().endPullupToRefresh(0);									
-								}
-							})
-						},
-						pulldownRefresh: function() {
-							wp.getData({
-								route:'posts',
-								data:{
-									page:1
-								},
-								success:function(data){
-									list.imglist=data;
-									mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-								},
-								error:function(){
-								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-								}
-							})
-							console.log('下拉')
-						}
+							route: 'posts',
+							data: {
+								page: this.page++
+							},
+							success: function(data) {
+								list.imglist = list.imglist.concat(data);
+								var next = list.imglist.length < app.per_page ? 1 : 0;
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
+								//									console.log('上');
+							},
+							error: function() {
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(0);
+							}
+						})
 					},
-					components:{
-						'my-img-list':MyImgList
+					pulldownRefresh: function() {
+						wp.getData({
+							route: 'posts',
+							data: {
+								page: 1
+							},
+							success: function(data) {
+								list.imglist = data;
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							},
+							error: function() {
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+							}
+						})
+						console.log('下拉')
+					},
+					detail: function(id) {
+						alert(id)
 					}
-				})
-				//			list.pullupRefresh()
+				},
+				components: {
+					'my-img-list': MyImgList
+				}
+			})
 			mui.init({
+				preloadPages: [{
+					url: 'detail.html',
+					id: 'detail.html'
+				}],
 				pullRefresh: {
 					container: '#pullrefresh',
 					down: {
@@ -87,6 +95,21 @@
 					}
 				}
 			});
+			/*
+			 * 监听点击事件
+			 */
+			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+				//获取id
+				var id = this.getAttribute("data-id");
+					detail_page = plus.webview.getWebviewById('detail.html');
+				mui.fire(detail_page, 'getDetail', {
+					id: id
+				});
+				//打开新闻详情
+				mui.openWindow({
+					id: 'detail.html',
+				}); //打开新闻详情
+			})
 			if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {

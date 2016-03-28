@@ -212,6 +212,20 @@
 					"js/vue.js",
 					"img/shuijiao.jpg"
 				],
+				"refer": [
+					"detail.html"
+				],
+				"priority": 0
+			},
+			"detail.html": {
+				"resources": [
+					"js/app.js",
+					"js/vue.js",
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"css/mystyle.css"
+				],
 				"refer": [],
 				"priority": 0
 			}
