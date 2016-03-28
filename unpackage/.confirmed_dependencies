@@ -32,6 +32,17 @@
 			"fonts/mui.ttf",
 			"css/mui.min.css",
 			"css/mystyle.css"
+		],
+		"refer": [
+			"browser/index.html"
+		]
+	},
+	"browser/index.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/vue.min.js",
+			"fonts/mui.ttf"
 		]
 	}
 }

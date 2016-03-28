@@ -104,14 +104,19 @@
 						detail.loading = 0;
 					},
 					error: function() {
-						alert('sss')
 						detail.loading = 0;
+						mui.alert('文章找不到了~')
 					}
 				})
 			});
 			mui('body').on('tap', 'a', function(e) {
-				alert(11)
-				
+				var url = this.getAttribute("href");
+					if(url){
+						localStorage.setItem('newurl',url)
+						var browser = mui.openWindow({
+							url:'browser/index.html',
+						})
+					}
 			});
 
 		</script>
