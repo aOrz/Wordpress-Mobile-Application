@@ -1,0 +1,24 @@
+{
+	"index.html": {
+		"resources": [
+			"js/app.js",
+			"js/vue.js",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"list.html"
+		],
+		"refer": [
+			"list.html"
+		]
+	},
+	"list.html": {
+		"resources": [
+			"fonts/mui.ttf",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/app.js",
+			"js/vue.js",
+			"img/shuijiao.jpg"
+		]
+	}
+}

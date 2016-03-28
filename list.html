@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="css/mui.min.css">
+	</head>
+
+	<body>
+		<!--下拉刷新容器-->
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-table-view">
+					<my-img-list v-for="item in imglist" :item="item" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="item.id"></my-img-list>
+				</ul>
+			</div>
+		</div>
+		<script src="./js/mui.min.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script>
+		var wp =new WP();
+			/*
+			 * VUE
+			 */
+			var list = new Vue({
+					el: 'body',
+					data: {
+						imglist:new Array(),
+						page:1
+					},
+					methods: {
+						pullupRefresh: function() {
+						wp.getData({
+								route:'posts',
+								data:{
+									page:this.page++
+								},
+								success:function(data){
+									list.imglist=list.imglist.concat(data);
+									var next = list.imglist.length<app.per_page?1:0;
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
+//									console.log('上');
+								},
+								error:function(){
+									mui('#pullrefresh').pullRefresh().endPullupToRefresh(0);									
+								}
+							})
+						},
+						pulldownRefresh: function() {
+							wp.getData({
+								route:'posts',
+								data:{
+									page:1
+								},
+								success:function(data){
+									list.imglist=data;
+									mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								},
+								error:function(){
+								mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+								}
+							})
+							console.log('下拉')
+						}
+					},
+					components:{
+						'my-img-list':MyImgList
+					}
+				})
+				//			list.pullupRefresh()
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					down: {
+						callback: list.pulldownRefresh
+					},
+					up: {
+						contentrefresh: '正在加载...',
+						callback: list.pullupRefresh
+					}
+				}
+			});
+			if (mui.os.plus) {
+				mui.plusReady(function() {
+					setTimeout(function() {
+						mui('#pullrefresh').pullRefresh().pullupLoading();
+					}, 1000);
+				});
+			} else {
+				mui.ready(function() {
+					mui('#pullrefresh').pullRefresh().pullupLoading();
+				});
+			}
+		</script>
+	</body>
+
+</html>
