@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="../css/mui.min.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">链接</h1>
+		</header>
+		<script src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/vue.min.js" ></script>
+		<script type="text/javascript" charset="UTF-8">
+			mui.init({
+				subpages: [{
+					url: localStorage.getItem('newurl'),
+					createNew: false,
+					styles: {
+						top: '45px',
+						bottom: 0,
+						bounce: 'vertical'
+					}
+				}]
+			});
+		</script>
+	</body>
+
+</html>
