@@ -56,8 +56,8 @@
 				},
 				methods: {
 					reload: function(event) {
-						var catid = event.target.dataset.catid
-						var list = plus.webview.getWebviewById('list.html')
+						var catid = event.target.dataset.catid;
+						var list = plus.webview.getWebviewById('list.html');
 						mui.fire(list, 'reload', {
 							catid: catid
 						});

@@ -75,6 +75,7 @@
 								console.log('da'+data.length+'d'+ app.per_page+'n'+next)
 								
 								list.imglist = data;
+								mui('#pullrefresh').pullRefresh().refresh(true);
 								mui('#pullrefresh').pullRefresh().endPulldownToRefresh(next);
 							},
 							error: function() {
