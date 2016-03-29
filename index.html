@@ -15,7 +15,7 @@
 		<my-header title='首页' lefticon="mui-action-menu mui-icon-bars"></my-header>
 		<div class="mui-content" style="width: 40%;">
 			<ul class="mui-table-view" v-if="ishide">
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" v-on:click="reload">
 					<a class="mui-navigate-right">
 						首页
 					</a>
