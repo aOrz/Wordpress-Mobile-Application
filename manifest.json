@@ -198,7 +198,8 @@
 					"js/vue.js",
 					"js/mui.min.js",
 					"css/mui.min.css",
-					"list.html"
+					"list.html",
+					"fonts/mui.ttf"
 				],
 				"refer": [],
 				"priority": 0
@@ -211,6 +212,15 @@
 					"js/app.js",
 					"js/vue.js",
 					"img/shuijiao.jpg"
+				],
+				"refer": [
+					"detail.html"
+				],
+				"priority": 0
+			},
+			"detail.html": {
+				"resources": [
+					"css/mystyle.css"
 				],
 				"refer": [],
 				"priority": 0
