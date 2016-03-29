@@ -5,7 +5,8 @@
 			"js/vue.js",
 			"js/mui.min.js",
 			"css/mui.min.css",
-			"list.html"
+			"list.html",
+			"fonts/mui.ttf"
 		],
 		"refer": [
 			"list.html"
@@ -31,7 +32,8 @@
 			"js/mui.min.js",
 			"fonts/mui.ttf",
 			"css/mui.min.css",
-			"css/mystyle.css"
+			"css/mystyle.css",
+			"css/sublime.css"
 		],
 		"refer": [
 			"browser/index.html"

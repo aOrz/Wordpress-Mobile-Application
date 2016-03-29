@@ -8,7 +8,6 @@
 
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/mystyle.css" />
-		<link rel="stylesheet" href="css/style.css" />
 		<style>
 			h1 {
 				font-size: 24px;
@@ -29,7 +28,9 @@
 			h5 {
 				font-size: 15px;
 			}
-			
+			p{
+				color: #000;
+			}
 			.title {
 				padding: 10px 0;
 				  /*border-bottom:1px solid #BBBBBB;*/
@@ -61,7 +62,7 @@
 	</head>
 
 	<body id="de">
-		<my-header title="文章详情" lefticon="mui-icon-left-nav"></my-header>
+		<my-header title="文章详情" lefticon="mui-action-back mui-icon-left-nav"></my-header>
 
 		<div class="mui-content page-content" id="content">
 			<div class="spinner" v-if="loading">

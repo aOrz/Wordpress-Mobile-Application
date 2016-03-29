@@ -1,10 +1,15 @@
-Vue.config.debug = true
+Vue.config.debug = false
 	/*
 	 * 配置参数
 	 */
 app = {
 		basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
-		per_page: 20
+		per_page: 20,
+		category:[{name:'CSS',catid:65},
+				{name:'HTML',catid:59},
+				{name:'JS',catid:24},
+				{name:"PHP",catid:98}
+		]
 	}
 	/*
 	 * 组件
@@ -13,7 +18,7 @@ app = {
 var MyHeader = Vue.extend({
 		props: ['lefticon', 'title', 'righticon'],
 		template: '<header class="mui-bar mui-bar-nav">' +
-			'<a class="mui-action-back mui-icon {{lefticon}} mui-pull-left"></a>' +
+			'<a id="lefticon" class=" mui-icon {{lefticon}} mui-pull-left"></a>' +
 			'<h1 class="mui-title">{{title}}</h1>' +
 			'<a class="mui-action-back mui-icon {{righticon}} mui-pull-right"></a>' +
 			'</header>'
@@ -50,9 +55,6 @@ WP.prototype.getData = function(inData) {
 		dataType: 'json',
 		type: 'get',
 		success: inData.success,
-		error: function() {
-			//			alert('出错啦')
-			console.log('ajax出错啦')
-		},
+		error: inData.error,
 	})
 }
