@@ -14,9 +14,9 @@
 	<body>
 		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars"></my-header>
 		<div class="mui-content" style="width: 40%;">
-			<ul class="mui-table-view" v-if="ishide">
-				<li class="mui-table-view-cell" v-on:click="reload"  data-name="{{title_name}}">
-					<a class="mui-navigate-right">
+			<ul class="mui-table-view" v-show="ishide">
+				<li class="mui-table-view-cell" >
+					<a class="mui-navigate-right" v-on:click="reload"  data-name="">
 						首页
 					</a>
 				</li>
@@ -59,7 +59,7 @@
 					reload: function(event) {
 						var catid = event.target.dataset.catid;
 						var name = event.target.dataset.name;
-						this.title_name=name;
+						this.title_name=name||app.name;
 						var list = plus.webview.getWebviewById('list.html');
 						mui.fire(list, 'reload', {
 							catid: catid,
