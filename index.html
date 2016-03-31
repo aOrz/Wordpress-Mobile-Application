@@ -15,7 +15,7 @@
 		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars"></my-header>
 		<div class="mui-content" style="width: 40%;">
 			<ul class="mui-table-view" v-if="ishide">
-				<li class="mui-table-view-cell" v-on:click="reload">
+				<li class="mui-table-view-cell" v-on:click="reload"  data-name="{{title_name}}">
 					<a class="mui-navigate-right">
 						首页
 					</a>
@@ -80,6 +80,7 @@
 					mui.fire(list, 'menu')
 				})
 			})
+			
 		</script>
 	</body>
 

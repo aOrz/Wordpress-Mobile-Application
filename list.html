@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="utf-8">
-		<title>菜单</title>
+		<title>文章列表</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -184,6 +184,27 @@
 						isInTransition = false;
 					}
 				};
+				//处理逻辑：1秒内，连续两次按返回键，则后台运行应用；
+					//处理逻辑：1秒内，连续两次按返回键，则退出应用；
+			var first = null;
+			mui.back = function() {
+				if (showMenu) {
+					closeMenu();
+				} else {
+					//首次按键，提示‘再按一次退出应用’
+					if (!first) {
+						first = new Date().getTime();
+						mui.toast('再按一次退出应用');
+						setTimeout(function() {
+							first = null;
+						}, 1000);
+					} else {
+						if (new Date().getTime() - first < 1000) {
+							plus.runtime.quit();
+						}
+					}
+				}
+			};
 				//主界面向右滑动，若菜单未显示，则显示菜单；否则不做任何操作
 				window.addEventListener("swiperight", openMenu);
 				//主界面向左滑动，若菜单已显示，则关闭菜单；否则，不做任何操作；

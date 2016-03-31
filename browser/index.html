@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title></title>
 		<link href="../css/mui.min.css" rel="stylesheet" />
-
+		<link rel="stylesheet" type="text/css" href="../css/mystyle.css"/>
 	</head>
 
 	<body>
@@ -14,6 +14,13 @@
 		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
 		    <h1 class="mui-title">链接</h1>
 		</header>
+		<div class="mui-content">
+			<div class="spinner" v-if="loading">
+					<div class="bounce1"></div>
+					<div class="bounce2"></div>
+					<div class="bounce3"></div>
+			</div>
+		</div>
 		<script src="../js/mui.min.js"></script>
 		<script type="text/javascript" src="../js/vue.min.js" ></script>
 		<script type="text/javascript" charset="UTF-8">
