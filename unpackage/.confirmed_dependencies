@@ -1,50 +1,52 @@
 {
-	"index.html": {
-		"resources": [
-			"js/app.js",
-			"js/vue.js",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"list.html",
-			"fonts/mui.ttf"
-		],
-		"refer": [
-			"list.html"
-		]
-	},
-	"list.html": {
-		"resources": [
-			"fonts/mui.ttf",
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"js/app.js",
-			"js/vue.js",
-			"img/shuijiao.jpg"
-		],
-		"refer": [
-			"detail.html"
-		]
-	},
-	"detail.html": {
-		"resources": [
-			"js/app.js",
-			"js/vue.js",
-			"js/mui.min.js",
-			"fonts/mui.ttf",
-			"css/mui.min.css",
-			"css/mystyle.css",
-			"css/sublime.css"
-		],
-		"refer": [
-			"browser/index.html"
-		]
-	},
-	"browser/index.html": {
-		"resources": [
-			"js/mui.min.js",
-			"css/mui.min.css",
-			"js/vue.min.js",
-			"fonts/mui.ttf"
-		]
-	}
+  "index.html": {
+    "resources": [
+      "js/app.js",
+      "js/vue.js",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "list.html",
+      "fonts/mui.ttf"
+    ],
+    "refer": [
+      "list.html"
+    ]
+  },
+  "list.html": {
+    "resources": [
+      "fonts/mui.ttf",
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/app.js",
+      "js/vue.js",
+      "img/shuijiao.jpg"
+    ],
+    "refer": [
+      "detail.html"
+    ]
+  },
+  "detail.html": {
+    "resources": [
+      "js/app.js",
+      "js/vue.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mystyle.css",
+      "css/sublime.css"
+    ],
+    "refer": [
+      "browser/index.html"
+    ]
+  },
+  "browser/index.html": {
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "js/vue.min.js",
+      "fonts/mui.ttf",
+      "css/mystyle.css"
+    ],
+    "refer": []
+  }
 }

@@ -3,6 +3,7 @@ Vue.config.debug = false
 	 * 配置参数
 	 */
 app = {
+	name:"奋斗的承诺",
 		basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
 		per_page: 20,
 		category:[{name:'CSS',catid:65},

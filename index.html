@@ -12,16 +12,16 @@
 	</head>
 
 	<body>
-		<my-header title='首页' lefticon="mui-action-menu mui-icon-bars"></my-header>
+		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars"></my-header>
 		<div class="mui-content" style="width: 40%;">
 			<ul class="mui-table-view" v-if="ishide">
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right" v-on:click="reload">
+				<li class="mui-table-view-cell" v-on:click="reload"  data-name="{{title_name}}">
+					<a class="mui-navigate-right">
 						首页
 					</a>
 				</li>
 				<li v-for="item in category" class="mui-table-view-cell">
-					<a class="mui-navigate-right" v-on:click="reload" data-catid="{{item.catid}}">
+					<a class="mui-navigate-right" v-on:click="reload" data-name="{{item.name}}" data-catid="{{item.catid}}">
 						{{item.name}}
 					</a>
 				</li>
@@ -52,14 +52,18 @@
 				el: 'body',
 				data: {
 					ishide: 0,
-					category: app.category
+					category: app.category,
+					title_name:app.name
 				},
 				methods: {
 					reload: function(event) {
-						var catid = event.target.dataset.catid
-						var list = plus.webview.getWebviewById('list.html')
+						var catid = event.target.dataset.catid;
+						var name = event.target.dataset.name;
+						this.title_name=name;
+						var list = plus.webview.getWebviewById('list.html');
 						mui.fire(list, 'reload', {
-							catid: catid
+							catid: catid,
+							name:name
 						});
 					}
 				}
