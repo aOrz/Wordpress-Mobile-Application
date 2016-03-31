@@ -35,7 +35,7 @@
 			var list = new Vue({
 				el: 'body',
 				data: {
-					imglist: JSON.parse(localStorage.getItem('list_data')),
+					imglist: JSON.parse(localStorage.getItem('list_data'))||new Array(),
 					page: 1,
 					catid:''
 				},
