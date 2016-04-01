@@ -135,7 +135,7 @@
 						return;
 					}
 					if (!showMenu) {
-						mui.fire(main, 'menu:hide');
+						mui.fire(main, 'menu:open');
 						//侧滑菜单处于隐藏状态，则立即显示出来；
 						isInTransition = true;
 						main.setStyle({
@@ -169,7 +169,7 @@
 						return;
 					}
 					if (showMenu) {
-						mui.fire(main, 'menu:hide');
+						mui.fire(main, 'menu:close');
 						//关闭遮罩；主窗体开始侧滑；
 						isInTransition = true;
 						listpage.setStyle({
@@ -227,12 +227,12 @@
 			if (mui.os.plus) {
 				mui.plusReady(function() {
 					setTimeout(function() {
-						mui('#pullrefresh').pullRefresh().pullupLoading();
+						mui('#pullrefresh').pullRefresh().pulldownLoading()
 					}, 1000);
 				});
 			} else {
 				mui.ready(function() {
-					mui('#pullrefresh').pullRefresh().pullupLoading();
+					mui('#pullrefresh').pullRefresh().pulldownLoading();
 				});
 			}
 		</script>

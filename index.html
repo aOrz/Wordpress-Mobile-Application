@@ -4,7 +4,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title></title>
+		<title>首页</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<style>
 
@@ -68,8 +68,11 @@
 					}
 				}
 			})
-			window.addEventListener('menu:hide', function(event) {
-				mv.ishide = (mv.ishide + 1) % 2;
+			window.addEventListener('menu:close', function(event) {
+				mv.ishide =0;
+			})
+			window.addEventListener('menu:open', function(event) {
+				mv.ishide = 1;
 			})
 			mui.plusReady(function() {
 				var list = plus.webview.getWebviewById('list.html')
