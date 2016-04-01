@@ -15,3 +15,9 @@
 6.点击发行，发行为原生应用，设置好开发者证书，然后打包。
 
 打包成功后会自动下载到本地目录，这样一个`App`就制作好了。
+
+#License
+
+The MIT License (MIT)
+
+Copyright (c) 2016 Zhen.Wang
