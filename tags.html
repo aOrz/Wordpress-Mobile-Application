@@ -7,12 +7,15 @@
 		<title>标签搜索</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/mystyle.css" />
+<<<<<<< HEAD
 		<style>
 			.hot a {
 				display: inline-block;
 				margin: 3px 10px;
 			}
 		</style>
+=======
+>>>>>>> dev
 	</head>
 
 	<body>
@@ -26,7 +29,6 @@
 			</div>
 			<h5> 热门标签</h5>
 			<div class="hot">
-
 				<a v-for="item in hot_tags" data-id="{{item.id}}" data-name="{{item.name}}" v-on:click="tagspage" track-by="id"><span data-name = "{{item.name}}" data-id = "{{item.id}}" class="mui-badge {{style[parseInt(Math.random()*6)]}}">{{item.name}}</span></a>
 			</div>
 		</div>
