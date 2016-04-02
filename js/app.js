@@ -26,9 +26,9 @@ var MyHeader = Vue.extend({
 	})
 	//图文列表组件
 var MyImgList = Vue.extend({
-		props: ['title', 'excerpt', 'id'],
-		template: '<li class="mui-table-view-cell mui-media" data-id="{{id}}">' +
-			'<a href="javascript:;" data-id="{{id}}">' +
+		props: ['title', 'excerpt', 'id','author'],
+		template: '<li class="mui-table-view-cell mui-media" data-id="{{id}}" data-author="{{author}}">' +
+			'<a href="javascript:;" >' +
 			//'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
 			'<div class="mui-media-body" >' +
 			'{{title}}' +

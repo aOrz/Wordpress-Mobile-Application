@@ -62,6 +62,12 @@
 			body,#content{
 				background-color: white;
 			}
+			.time{
+				margin-bottom: 6px;
+			}
+			.time time{
+				color: #BBBBBB;
+			}
 		</style>
 	</head>
 
@@ -75,7 +81,10 @@
 					<div class="bounce3"></div>
 			</div>
 			<div class="title">
-				<h1>{{title}}</h1>
+				<h1>{{{title}}}</h1>
+			</div>
+			<div class="time">
+				<time>{{time}}</time>&nbsp;&nbsp;<a>{{author}}</a>
 			</div>
 
 			{{{content}}}
@@ -90,27 +99,42 @@
 				data: {
 					title: '',
 					content: '',
+					time:'',
+					author:'',
 					loading:1
 				}
 			})
 			var wp = new WP();
 			window.addEventListener('getDetail', function(event) {
 				detail.title = '';
-				detail.content = ''
+				detail.content = '';
+				detail.time='';
+				detail.author='';
 				detail.loading = 1;
 					//获得事件参数
 				var id = event.detail.id;
+				var author = event.detail.author;
 				wp.getData({
 					route: 'posts/' + id,
 					data: {},
 					success: function(data) {
 						detail.title = data.title.rendered;
 						detail.content = data.content.rendered;
+						detail.time = data.date;
 						detail.loading = 0;
 					},
 					error: function() {
 						detail.loading = 0;
 						mui.alert('文章找不到了~')
+					}
+				})
+				wp.getData({
+					route: 'users/' + author,
+					data: {},
+					success: function(data) {
+						detail.author = data.name;
+					},
+					error: function() {
 					}
 				})
 			});

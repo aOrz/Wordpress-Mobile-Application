@@ -209,12 +209,7 @@
 			},
 			"tags.html": {
 				"resources": [
-					"js/app.js",
-					"js/vue.js",
-					"js/mui.min.js",
 					"fonts/mui.ttf",
-					"css/mui.min.css",
-					"css/mystyle.css",
 					"js/mui.js"
 				],
 				"refer": [],

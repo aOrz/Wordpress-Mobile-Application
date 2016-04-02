@@ -18,7 +18,7 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-table-view">
-					<my-img-list v-for="item in imglist" :id="item.id" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="id">
+					<my-img-list v-for="item in imglist" :id="item.id" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="id">
 
 					</my-img-list>
 				</ul>
@@ -117,9 +117,11 @@
 			mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
 				//获取id
 				var id = this.getAttribute("data-id");
+				var author = this.getAttribute("data-author");
 				var detail_page = plus.webview.getWebviewById('detail.html');
 				mui.fire(detail_page, 'getDetail', {
-					id: id
+					id: id,
+					author:author
 				});
 				//打开新闻详情
 				mui.openWindow({
