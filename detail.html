@@ -83,8 +83,8 @@
 			<div class="title">
 				<h1>{{{title}}}</h1>
 			</div>
-			<div class="time" v-if="!loading">
-				<time>{{time}}</time>&nbsp;&nbsp;<a>{{author}}</a>
+			<div class="time" v-if="!loading" >
+				<time>{{time}}</time>&nbsp;&nbsp;<a v-on:click="authorpage" data-id="{{author_id}}" data-name="{{author}}">{{author}}</a>
 			</div>
 
 			{{{content}}}
@@ -127,6 +127,23 @@
 							tags: id,
 						});
 						mui.back()
+					},
+					authorpage:function(event){
+						console.log('s')
+						var id = event.target.dataset.id;
+						var name = event.target.dataset.name;
+						var index = plus.webview.getLaunchWebview();
+						mui.fire(index, 'title', {
+								title_name: name
+							})
+							//						console.log(id)
+						var list = plus.webview.getWebviewById('list.html');
+						mui.fire(list, 'reload', {
+							page: 1,
+							context: 'embed',
+							user: id,
+						});
+						mui.back()
 					}
 				}
 			})
@@ -160,6 +177,7 @@
 					data: {},
 					success: function(data) {
 						detail.author = data.name;
+						detail.author_id=data.id;
 					},
 					error: function() {
 					}
