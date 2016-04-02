@@ -87,6 +87,6 @@ function updateSerivces(){
 			shares[t.id]=t;
 		}
 	}, function(e){
-		outSet( "获取分享服务列表失败："+e.message );
+		console.log( "获取分享服务列表失败："+e.message );
 	} );
 }

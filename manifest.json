@@ -160,7 +160,8 @@
 					"js/mui.min.js",
 					"css/mui.min.css",
 					"list.html",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"css/mystyle.css"
 				],
 				"refer": [
 					"tags.html"
@@ -210,7 +211,8 @@
 			"tags.html": {
 				"resources": [
 					"fonts/mui.ttf",
-					"js/mui.js"
+					"js/mui.js",
+					"css/mystyle.css"
 				],
 				"refer": [],
 				"priority": 0
