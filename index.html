@@ -12,7 +12,7 @@
 	</head>
 
 	<body>
-		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars"></my-header>
+		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars" righticon="mui-icon-search"></my-header>
 		<div class="mui-content" style="width: 40%;">
 			<ul class="mui-table-view" v-show="ishide">
 				<li class="mui-table-view-cell" >
@@ -62,8 +62,9 @@
 						this.title_name=name||app.name;
 						var list = plus.webview.getWebviewById('list.html');
 						mui.fire(list, 'reload', {
-							catid: catid,
-							name:name
+							page:1,
+						context: 'embed',
+				        'filter[cat]':catid,
 						});
 					}
 				}
@@ -74,6 +75,10 @@
 			window.addEventListener('menu:open', function(event) {
 				mv.ishide = 1;
 			})
+			window.addEventListener('title', function(event) {
+				console.log(JSON.stringify(event.detail))
+				mv.title_name = event.detail.title_name;
+			})
 			mui.plusReady(function() {
 				var list = plus.webview.getWebviewById('list.html')
 				document.getElementById('lefticon').addEventListener('tap', function() {
@@ -81,6 +86,17 @@
 						list = plus.webview.getWebviewById('list.html')
 					}
 					mui.fire(list, 'menu')
+				})
+			})
+			//预加载标签页面
+			var tags = mui.preload({
+				url:'tags.html',
+				id:'tags'
+			})
+			document.getElementById('righticon').addEventListener('tap',function(){
+				mui.openWindow({
+					url:'tags.html',
+					id:'tags'
 				})
 			})
 		</script>
