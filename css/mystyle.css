@@ -51,3 +51,8 @@
 					-webkit-transform: scale(1.0);
 				}
 			}
+			
+.hot a {
+				display: inline-block;
+				margin: 3px 10px;
+			}
