@@ -162,7 +162,9 @@
 					"list.html",
 					"fonts/mui.ttf"
 				],
-				"refer": [],
+				"refer": [
+					"tags.html"
+				],
 				"priority": 0
 			},
 			"list.html": {
@@ -204,11 +206,18 @@
 				],
 				"refer": [],
 				"priority": 0
+			},
+			"tags.html": {
+				"resources": [
+					"fonts/mui.ttf",
+					"js/mui.js"
+				],
+				"refer": [],
+				"priority": 0
 			}
 		},
 		"idle": {
 			"resources": [
-				"js/mui.js",
 				"css/mui.css"
 			]
 		}
