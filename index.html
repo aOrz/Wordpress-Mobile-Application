@@ -6,17 +6,15 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>首页</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
-		<style>
-
-		</style>
+		<link rel="stylesheet" href="css/mystyle.css" />
 	</head>
 
 	<body>
-		<my-header  v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars" righticon="mui-icon-search"></my-header>
+		<my-header v-bind:title="title_name" lefticon="mui-action-menu mui-icon-bars" righticon="mui-icon-search"></my-header>
 		<div class="mui-content" style="width: 40%;">
 			<ul class="mui-table-view" v-show="ishide">
-				<li class="mui-table-view-cell" >
-					<a class="mui-navigate-right" v-on:click="reload"  data-name="">
+				<li class="mui-table-view-cell">
+					<a class="mui-navigate-right" v-on:click="reload" data-name="">
 						首页
 					</a>
 				</li>
@@ -46,6 +44,10 @@
 						bottom: 0,
 						bounce: 'vertical'
 					}
+				}],
+				preloadPages: [{
+					url: 'tags.html',
+					id: 'tags'
 				}]
 			});
 			var mv = new Vue({
@@ -53,27 +55,43 @@
 				data: {
 					ishide: 0,
 					category: app.category,
-					title_name:app.name
+					title_name: app.name
 				},
 				methods: {
 					reload: function(event) {
 						var catid = event.target.dataset.catid;
 						var name = event.target.dataset.name;
-						this.title_name=name||app.name;
+						this.title_name = name || app.name;
 						var list = plus.webview.getWebviewById('list.html');
 						mui.fire(list, 'reload', {
-							page:1,
-						context: 'embed',
-				        'filter[cat]':catid,
+							page: 1,
+							context: 'embed',
+							'filter[cat]': catid,
 						});
 					}
 				}
 			})
+			var menu = document.getElementById('lefticon');
+
+			function hasClass(obj, cls) {
+				return obj.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+			}
+
+			function removeClass(obj, cls) {
+				if (hasClass(obj, cls)) {
+					var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
+					obj.className = obj.className.replace(reg, ' ');
+				}
+			}
 			window.addEventListener('menu:close', function(event) {
-				mv.ishide =0;
+				mv.ishide = 0;
+				removeClass(menu, 'trans')
+				if (!hasClass(menu, 'transback')) menu.className += " " + 'transback';
 			})
 			window.addEventListener('menu:open', function(event) {
 				mv.ishide = 1;
+				if (hasClass(menu, 'transback')) removeClass(menu, 'transback')
+				if (!hasClass(menu, 'trans')) menu.className += " " + 'trans';
 			})
 			window.addEventListener('title', function(event) {
 				console.log(JSON.stringify(event.detail))
@@ -88,15 +106,10 @@
 					mui.fire(list, 'menu')
 				})
 			})
-			//预加载标签页面
-			var tags = mui.preload({
-				url:'tags.html',
-				id:'tags'
-			})
-			document.getElementById('righticon').addEventListener('tap',function(){
+			document.getElementById('righticon').addEventListener('tap', function() {
 				mui.openWindow({
-					url:'tags.html',
-					id:'tags'
+					url: 'tags.html',
+					id: 'tags'
 				})
 			})
 		</script>

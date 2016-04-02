@@ -62,7 +62,7 @@
         },
         "Navigator":{
         	"description": "浏览器信息"
-        }
+        },"Share":{},"Invocation":{},"Device":{}
 	},
 	"plus": {
 		"splashscreen": {
@@ -85,7 +85,7 @@
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/
 				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
-				"permissions": ["<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>"]
+				"permissions": ["<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>","<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>","<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>","<uses-permission android:name=\"android.permission.VIBRATE\"/>","<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>","<uses-permission android:name=\"android.permission.CALL_PHONE\"/>","<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>","<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>"]
 			},
 			"orientation": ["portrait-primary", "portrait-secondary"],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
 			"icons": {
@@ -160,7 +160,8 @@
 					"js/mui.min.js",
 					"css/mui.min.css",
 					"list.html",
-					"fonts/mui.ttf"
+					"fonts/mui.ttf",
+					"css/mystyle.css"
 				],
 				"refer": [
 					"tags.html"
@@ -210,7 +211,8 @@
 			"tags.html": {
 				"resources": [
 					"fonts/mui.ttf",
-					"js/mui.js"
+					"js/mui.js",
+					"css/mystyle.css"
 				],
 				"refer": [],
 				"priority": 0

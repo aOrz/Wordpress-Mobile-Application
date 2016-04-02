@@ -8,7 +8,7 @@ app = {
 		per_page: 20,
 		category:[{name:'CSS',catid:65},
 				{name:'HTML',catid:59},
-				{name:'JS',catid:24},
+				{name:'JS',catid:182},
 				{name:"PHP",catid:98}
 		]
 	}
@@ -21,7 +21,7 @@ var MyHeader = Vue.extend({
 		template: '<header class="mui-bar mui-bar-nav">' +
 			'<a id="lefticon" class=" mui-icon {{lefticon}} mui-pull-left"></a>' +
 			'<h1 class="mui-title">{{title}}</h1>' +
-			'<a id="righticon" class="mui-action-back mui-icon {{righticon}} mui-pull-right"></a>' +
+			'<a id="righticon" class="mui-icon {{righticon}} mui-pull-right"></a>' +
 			'</header>'
 	})
 	//图文列表组件
@@ -58,4 +58,35 @@ WP.prototype.getData = function(inData) {
 		success: inData.success,
 		error: inData.error,
 	})
+}
+/**
+ * 调用系统分享
+ * 调用
+ */
+function shareSystem(sharecontent) {
+	if(plus.os.name!=="Android"){
+		plus.nativeUI.alert("此平台暂不支持系统分享功能!");
+		return;
+	}
+	var intent=new Intent(Intent.ACTION_SEND);
+	var p = "";
+		intent.setType("text/plain");
+	intent.putExtra(Intent.EXTRA_SUBJECT,app.name);
+	intent.putExtra(Intent.EXTRA_TEXT,sharecontent);
+	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	main.startActivity(Intent.createChooser(intent,"系统分享"));
+}
+/**
+ * 更新分享服务
+ */
+function updateSerivces(){
+	plus.share.getServices( function(s){
+		shares={};
+		for(var i in s){
+			var t=s[i];
+			shares[t.id]=t;
+		}
+	}, function(e){
+		console.log( "获取分享服务列表失败："+e.message );
+	} );
 }
