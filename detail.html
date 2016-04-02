@@ -28,12 +28,14 @@
 			h5 {
 				font-size: 15px;
 			}
-			p{
+			
+			p {
 				color: #000;
 			}
+			
 			.title {
 				padding: 10px 0;
-				  /*border-bottom:1px solid #BBBBBB;*/
+				/*border-bottom:1px solid #BBBBBB;*/
 			}
 			
 			.page-content {
@@ -54,44 +56,48 @@
 				display: block;
 				margin: 0 auto 10px;
 			}
-			.alignleft{
+			
+			.alignleft {
 				display: block;
 				margin: 0 0 10px auto;
 			}
 			
-			body,#content{
+			body,
+			#content {
 				background-color: white;
 			}
-			.time{
+			
+			.time {
 				margin-bottom: 6px;
 			}
-			.time time{
+			
+			.time time {
 				color: #BBBBBB;
 			}
 		</style>
 	</head>
 
 	<body id="de">
-		<my-header title="文章详情" lefticon="mui-action-back mui-icon-left-nav"></my-header>
+		<my-header title="文章详情" righticon="mui-icon-pengyouquan" lefticon="mui-action-back mui-icon-left-nav"></my-header>
 
 		<div class="mui-content page-content" id="content">
 			<div class="spinner" v-if="loading">
-					<div class="bounce1"></div>
-					<div class="bounce2"></div>
-					<div class="bounce3"></div>
+				<div class="bounce1"></div>
+				<div class="bounce2"></div>
+				<div class="bounce3"></div>
 			</div>
 			<div class="title">
 				<h1>{{{title}}}</h1>
 			</div>
-			<div class="time" v-if="!loading" >
+			<div class="time" v-if="!loading">
 				<time>{{time}}</time>&nbsp;&nbsp;<a v-on:click="authorpage" data-id="{{author_id}}" data-name="{{author}}">{{author}}</a>
 			</div>
 
 			{{{content}}}
 			<div class="hot" v-if="tags[1]&&!loading">
 				<div class="title">
-				<h5>标签</h5>
-			</div>
+					<h5>标签</h5>
+				</div>
 				<a v-for="item in tags" data-id="{{item.id}}" data-name="{{item.name}}" v-on:click="tagspage" track-by="id"><span data-name = "{{item.name}}" data-id = "{{item.id}}" class="mui-badge {{style[parseInt(Math.random()*6)]}}">{{item.name}}</span></a>
 			</div>
 		</div>
@@ -105,13 +111,14 @@
 				data: {
 					title: '',
 					content: '',
-					time:'',
-					author:'',
-					tags:'',
-					loading:1,
+					time: '',
+					author: '',
+					tags: '',
+					url: '',
+					loading: 1,
 					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
 				},
-				methods:{
+				methods: {
 					tagspage: function(event) {
 						var id = event.target.dataset.id;
 						var name = event.target.dataset.name;
@@ -128,7 +135,7 @@
 						});
 						mui.back()
 					},
-					authorpage:function(event){
+					authorpage: function(event) {
 						console.log('s')
 						var id = event.target.dataset.id;
 						var name = event.target.dataset.name;
@@ -151,11 +158,10 @@
 			window.addEventListener('getDetail', function(event) {
 				detail.title = '';
 				detail.content = '';
-				detail.time='';
-				detail.author='';
+				detail.time = '';
+				detail.author = '';
 				detail.loading = 1;
-				
-					//获得事件参数
+				//获得事件参数
 				var id = event.detail.id;
 				var author = event.detail.author;
 				wp.getData({
@@ -165,6 +171,7 @@
 						detail.title = data.title.rendered;
 						detail.content = data.content.rendered;
 						detail.time = data.date;
+						detail.url = data.link;
 						detail.loading = 0;
 					},
 					error: function() {
@@ -177,33 +184,50 @@
 					data: {},
 					success: function(data) {
 						detail.author = data.name;
-						detail.author_id=data.id;
+						detail.author_id = data.id;
 					},
-					error: function() {
-					}
+					error: function() {}
 				})
 				wp.getData({
 					route: 'tags/',
 					data: {
-						post:id
+						post: id
 					},
 					success: function(data) {
 						detail.tags = data;
 					},
-					error: function() {
-					}
+					error: function() {}
 				})
 			});
 			mui('body').on('tap', 'a', function(e) {
 				var url = this.getAttribute("href");
-					if(url){
-						localStorage.setItem('newurl',url)
-						var browser = mui.openWindow({
-							url:'browser/index.html',
-						})
-					}
+				if (url) {
+					localStorage.setItem('newurl', url)
+					var browser = mui.openWindow({
+						url: 'browser/index.html',
+					})
+				}
 			});
-
+			var shares = null,
+					bhref = false;
+				var Intent = null,
+					File = null,
+					Uri = null,
+					main = null;
+			document.getElementById('righticon').addEventListener('tap', function() {
+				shareSystem(detail.title+' 地址：'+detail.url);
+			})
+			mui.plusReady(function() {
+				
+				// H5 plus事件处理
+				updateSerivces();
+				if (plus.os.name == "Android") {
+					Intent = plus.android.importClass("android.content.Intent");
+					File = plus.android.importClass("java.io.File");
+					Uri = plus.android.importClass("android.net.Uri");
+					main = plus.android.runtimeMainActivity();
+				}
+			})
 		</script>
 	</body>
 
