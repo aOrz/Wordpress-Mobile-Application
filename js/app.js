@@ -21,7 +21,7 @@ var MyHeader = Vue.extend({
 		template: '<header class="mui-bar mui-bar-nav">' +
 			'<a id="lefticon" class=" mui-icon {{lefticon}} mui-pull-left"></a>' +
 			'<h1 class="mui-title">{{title}}</h1>' +
-			'<a class="mui-action-back mui-icon {{righticon}} mui-pull-right"></a>' +
+			'<a id="righticon" class="mui-action-back mui-icon {{righticon}} mui-pull-right"></a>' +
 			'</header>'
 	})
 	//图文列表组件
@@ -50,7 +50,7 @@ var WP = function() {
 WP.prototype.getData = function(inData) {
 	var url = inData.url || app.basic_url;
 	inData.data = inData.data || {};
-	inData.data.per_page = app.per_page;
+	inData.data.per_page = inData.data.per_page || app.per_page;
 	mui.ajax(url + inData.route, {
 		data: inData.data,
 		dataType: 'json',

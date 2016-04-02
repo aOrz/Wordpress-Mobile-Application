@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>标签搜索</title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mystyle.css" />
+		<style>
+			.hot a {
+				display: inline-block;
+				margin: 3px 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<my-header title="搜索" lefticon="mui-action-back mui-icon-back"></my-header>
+		<div class="mui-content">
+			<div class="mui-content=append">
+				<h5>搜索</h5>
+				<div class="mui-input-row mui-search">
+					<input type="search" id="search" class="mui-input-clear" placeholder="关键词搜索">
+				</div>
+			</div>
+			<h5> 热门标签</h5>
+			<div class="hot">
+
+				<a v-for="item in hot_tags" data-id="{{item.id}}" data-name="{{item.name}}" v-on:click="tagspage" track-by="id"><span data-name = "{{item.name}}" data-id = "{{item.id}}" class="mui-badge {{style[parseInt(Math.random()*6)]}}">{{item.name}}</span></a>
+			</div>
+		</div>
+		
+		<script src="js/mui.js"></script>
+		<script type="text/javascript" src="js/vue.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		<script>
+			mui.init();
+			var wp = new WP();
+			var tags = new Vue({
+				el: 'body',
+				data: {
+					hot_tags: JSON.parse(localStorage.getItem('tags')) || {},
+					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
+				},
+				methods: {
+					getTags: function() {
+						wp.getData({
+							route: 'tags',
+							data: {
+								orderby: 'count',
+								order: 'desc',
+								per_page: 50
+							},
+							success: function(data) {
+								localStorage.setItem('tags', JSON.stringify(data));
+								tags.hot_tags = data;
+								console.log(JSON.stringify(data))
+							}
+						});
+					},
+					tagspage: function(event) {
+						var id = event.target.dataset.id;
+						var name = event.target.dataset.name;
+						var index = plus.webview.getLaunchWebview();
+						mui.fire(index, 'title', {
+								title_name: name
+							})
+							//						console.log(id)
+						var list = plus.webview.getWebviewById('list.html');
+						mui.fire(list, 'reload', {
+							page: 1,
+							context: 'embed',
+							tags: id,
+						});
+						mui.back()
+					}
+				}
+			});
+			tags.getTags();
+			var search = document.getElementById('search');
+			search.addEventListener('keydown',function(event){
+				if(event.keyCode==13){
+					var searchcont = search.value;
+					console.log(searchcont)
+					var index = plus.webview.getLaunchWebview();
+						mui.fire(index, 'title', {
+								title_name: searchcont
+							})
+							//						console.log(id)
+						var list = plus.webview.getWebviewById('list.html');
+						mui.fire(list, 'reload', {
+							page: 1,
+							context: 'embed',
+							search: searchcont,
+						});
+						mui.back()
+				}
+			})
+		</script>
+	</body>
+
+</html>

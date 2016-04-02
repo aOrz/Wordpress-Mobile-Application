@@ -9,7 +9,8 @@
       "fonts/mui.ttf"
     ],
     "refer": [
-      "list.html"
+      "list.html",
+      "tags.html"
     ]
   },
   "list.html": {
@@ -46,6 +47,18 @@
       "js/vue.min.js",
       "fonts/mui.ttf",
       "css/mystyle.css"
+    ],
+    "refer": []
+  },
+  "tags.html": {
+    "resources": [
+      "js/app.js",
+      "js/vue.js",
+      "js/mui.min.js",
+      "fonts/mui.ttf",
+      "css/mui.min.css",
+      "css/mystyle.css",
+      "js/mui.js"
     ],
     "refer": []
   }
