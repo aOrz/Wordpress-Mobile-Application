@@ -1,5 +1,5 @@
 # Wordpress-Mobile-Application
-利用`wordpress`作为后台，构建`App`
+利用`wordpress`作为后台，构建`App`(安卓和IOS)
 -------------------
 ###用到的技术
 1. html5+:[http://www.dcloud.io/docs/api/](http://www.dcloud.io/docs/api/)
