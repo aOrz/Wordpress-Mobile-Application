@@ -1,4 +1,4 @@
-Vue.config.debug = false
+//Vue.config.debug = false
 	/*
 	 * 配置参数
 	 */

@@ -7,7 +7,8 @@
       "css/mui.min.css",
       "list.html",
       "fonts/mui.ttf",
-      "css/mystyle.css"
+      "css/mystyle.css",
+      "js/vue.min.js"
     ],
     "refer": [
       "list.html",
@@ -21,7 +22,8 @@
       "css/mui.min.css",
       "js/app.js",
       "js/vue.js",
-      "img/shuijiao.jpg"
+      "img/shuijiao.jpg",
+      "js/vue.min.js"
     ],
     "refer": [
       "detail.html"
@@ -35,7 +37,8 @@
       "fonts/mui.ttf",
       "css/mui.min.css",
       "css/mystyle.css",
-      "css/sublime.css"
+      "css/sublime.css",
+      "js/vue.min.js"
     ],
     "refer": [
       "browser/index.html"
@@ -59,7 +62,8 @@
       "fonts/mui.ttf",
       "css/mui.min.css",
       "css/mystyle.css",
-      "js/mui.js"
+      "js/mui.js",
+      "js/vue.min.js"
     ],
     "refer": []
   }
