@@ -2,9 +2,9 @@
 利用`wordpress`作为后台，构建`App`(安卓和IOS)
 -------------------
 ###用到的技术
-1. html5+:[http://www.dcloud.io/docs/api/](http://www.dcloud.io/docs/api/)
+1. html5+:[http://www.html5plus.org/doc/h5p.html](http://www.html5plus.org/doc/h5p.html)
 
-2. mui:[http://dcloudio.github.io/mui/](http://dcloudio.github.io/mui/)
+2. mui:[http://dev.dcloud.net.cn/mui/](http://dev.dcloud.net.cn/mui/)
 
 3. hbuilder:[http://www.dcloud.io/](http://www.dcloud.io/)
 
