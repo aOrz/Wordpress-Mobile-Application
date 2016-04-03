@@ -23,6 +23,9 @@
 6. 点击发行，发行为原生应用，设置好开发者证书，然后打包。
 
 打包成功后会自动下载到本地目录，这样一个`App`就制作好了。
+###修改主题颜色
+下载本项目代码，打开css/mystyle.css最后几行有注释声明可以修改颜色值，修改颜色值即可自定义主题颜色。
+
 ###项目截图
 ![首页](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-03-31-09-27-53_io.dcloud.HBuilder-169x300.png)
 ![菜单](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-03-31-09-27-56_io.dcloud.HBuilder-169x300.png)
