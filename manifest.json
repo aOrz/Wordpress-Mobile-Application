@@ -284,7 +284,7 @@
 		}
 	},
 	"unpackage": [
-		'README.md',
-		'LICENSE'
+		"README.md",
+		"LICENSE"
 	]
 }
