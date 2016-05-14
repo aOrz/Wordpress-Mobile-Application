@@ -4,9 +4,9 @@
 	 */
 app = {
 	name:"奋斗的承诺",
-		basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
-		per_page: 20,
-		category:[{name:'CSS',catid:65},
+	basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
+	per_page: 20,
+	category:[{name:'CSS',catid:65},
 				{name:'HTML',catid:59},
 				{name:'JS',catid:182},
 				{name:"PHP",catid:98}
@@ -31,8 +31,8 @@ var MyImgList = Vue.extend({
 			'<a href="javascript:;" >' +
 			//'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
 			'<div class="mui-media-body" >' +
-			'{{title}}' +
-			'<p class="mui-ellipsis">{{{excerpt}}}</p>' +
+			'{{{title}}}' +
+			'<p class="text" style="white-space: normal;">{{{excerpt}}}</p>' +
 			'</div>' +
 			'</a>' +
 			'</li>'
@@ -49,6 +49,7 @@ var WP = function() {
 }
 WP.prototype.getData = function(inData) {
 	var url = inData.url || app.basic_url;
+	inData.route = inData.route || '';
 	inData.data = inData.data || {};
 	inData.data.per_page = inData.data.per_page || app.per_page;
 	mui.ajax(url + inData.route, {
