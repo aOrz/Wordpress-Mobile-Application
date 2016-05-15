@@ -31,11 +31,11 @@
 下载本项目代码，打开css/mystyle.css最后几行有注释声明可以修改颜色值，修改颜色值即可自定义主题颜色。
 
 ###项目截图
-![首页](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/res/screenshot/1.png)
-![菜单](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/res/screenshot/2.png)
-![搜索](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/res/screenshot/3.png)
-![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/res/screenshot/4.png)
-![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/res/screenshot/5.png)
+![首页](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/1.png)
+![菜单](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/2.png)
+![搜索](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/3.png)
+![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/4.png)
+![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/5.png)
 ##License
 
 The MIT License (MIT)
