@@ -228,7 +228,8 @@
 					"js/app.js",
 					"js/vue.js",
 					"img/shuijiao.jpg",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"css/mystyle.css"
 				],
 				"refer": [
 					"detail.html"
@@ -244,7 +245,10 @@
 					"css/mui.min.css",
 					"css/mystyle.css",
 					"css/sublime.css",
-					"js/vue.min.js"
+					"js/vue.min.js",
+					"css/prism.css",
+					"css/prism.js",
+					"js/prism.js"
 				],
 				"refer": [
 					"browser/index.html"

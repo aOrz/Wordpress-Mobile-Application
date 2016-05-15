@@ -26,13 +26,14 @@ var MyHeader = Vue.extend({
 	})
 	//图文列表组件
 var MyImgList = Vue.extend({
-		props: ['title', 'excerpt', 'id','author'],
+		props: ['title', 'excerpt', 'id','author','date'],
 		template: '<li class="mui-table-view-cell mui-media" data-id="{{id}}" data-author="{{author}}">' +
 			'<a href="javascript:;" >' +
-			//'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
+//			'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
 			'<div class="mui-media-body" >' +
 			'{{{title}}}' +
 			'<p class="text" style="white-space: normal;">{{{excerpt}}}</p>' +
+			'<p class="time">{{date|getdate}}</p>'+
 			'</div>' +
 			'</a>' +
 			'</li>'
@@ -41,6 +42,9 @@ var MyImgList = Vue.extend({
 	 * 注册公用组件
 	 */
 Vue.component('my-header', MyHeader);
+Vue.filter('getdate', function (value) {
+  return value.split('T')[0];
+})
 /*
  * 文章
  */
