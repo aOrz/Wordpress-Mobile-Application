@@ -10,6 +10,7 @@
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/mystyle.css" />
 	</head>
 
 	<body>
@@ -18,7 +19,7 @@
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-table-view">
-					<my-img-list v-for="item in imglist" :id="item.id" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="id">
+					<my-img-list v-for="item in imglist" :id="item.id" :date = "item.date" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" track-by="id">
 
 					</my-img-list>
 				</ul>
@@ -88,7 +89,6 @@
 								mui.alert('好像出错了哦~')
 							}
 						})
-						console.log('下拉')
 					}
 				},
 				components: {

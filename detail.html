@@ -7,7 +7,9 @@
 		<title>文章详情</title>
 
 		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="./css/prism.css" rel="stylesheet">
 		<link rel="stylesheet" href="css/mystyle.css" />
+		
 		<style>
 			h1 {
 				font-size: 24px;
@@ -80,7 +82,7 @@
 	<body id="de">
 		<my-header title="文章详情" righticon="mui-icon-pengyouquan" lefticon="mui-action-back mui-icon-left-nav"></my-header>
 
-		<div class="mui-content page-content" id="content">
+		<div class="mui-content page-content mui-soll" id="content">
 			<div class="spinner" v-if="loading">
 				<div class="bounce1"></div>
 				<div class="bounce2"></div>
@@ -103,6 +105,7 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" src="js/vue.min.js"></script>
+		<script src="js/prism.js"></script>  
 		<script type="text/javascript" src="js/app.js"></script>
 		<script type="text/javascript" charset="UTF-8">
 			mui.init();
@@ -170,6 +173,9 @@
 					success: function(data) {
 						detail.title = data.title.rendered;
 						detail.content = data.content.rendered;
+						Vue.nextTick(function(){
+							Prism.highlightAll();
+						})
 						detail.time = data.date;
 						detail.url = data.link;
 						detail.loading = 0;
@@ -228,7 +234,9 @@
 					main = plus.android.runtimeMainActivity();
 				}
 			})
-		</script>
+			//Prism
+
+	</script>
 	</body>
 
 </html>

@@ -138,10 +138,22 @@
 	display: inline-block;
 }
 /*导航栏颜色*/
-.mui-bar-nav,.menu{
+.mui-bar-nav,.menu,.mui-table-view-cell:after{
 	background-color: #33cccc;/*改这个颜色值就可以啦*/
 }
 /*导航栏图标和文字颜色*/
-.mui-bar-nav h1,.mui-icon,.mui-table-view-cell>a:not(.mui-btn){
+.mui-bar-nav h1,.mui-icon,.menu .mui-table-view-cell>a:not(.mui-btn){
 	color: white;/*改这个颜色值就可以啦*/
+}
+.mui-navigate-right:after{
+	color: #FFF;
+}
+.text{
+	margin-top: 5px;
+	/*max-height: 42px;*/
+	 white-space: normal; 
+	 /*overflow: hidden;*/
+}
+.mui-media-body .time{
+	text-align: right;
 }

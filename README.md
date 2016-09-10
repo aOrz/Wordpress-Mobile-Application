@@ -1,6 +1,10 @@
 # Wordpress-Mobile-Application
 利用`wordpress`作为后台，构建`App`(安卓和IOS)
 -------------------
+###更新内容
+2016.5.15：支持代码高亮，支持语言PHP,JS,CSS,Java等，代码格式`<pre class="lang:js">code</pre>`或`<pre class="lang:js"><code>code<code></pre>`,代码高亮使用了prismjs，做了一些修改，如有其它需求可修改此插件。
+###案例体验
+我的博客：[奋斗的承诺](https://github.com/4013465w/Wordpress-Mobile-Application/blob/master/unpackage/release/myblog_0331140049.apk?raw=true)
 ###用到的技术
 1. html5+:[http://www.html5plus.org/doc/h5p.html](http://www.html5plus.org/doc/h5p.html)
 
@@ -27,10 +31,11 @@
 下载本项目代码，打开css/mystyle.css最后几行有注释声明可以修改颜色值，修改颜色值即可自定义主题颜色。
 
 ###项目截图
-![首页](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-03-31-09-27-53_io.dcloud.HBuilder-169x300.png)
-![菜单](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-03-31-09-27-56_io.dcloud.HBuilder-169x300.png)
-![搜索](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-04-03-12-22-05_io.dcloud.myblog-169x300.png)
-![正文](http://www.fddcn.cn/wp-content/uploads/2016/03/Screenshot_2016-04-03-12-22-23_io.dcloud.myblog-169x300.png)
+![首页](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/1.png)
+![菜单](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/2.png)
+![搜索](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/3.png)
+![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/4.png)
+![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/5.png)
 ##License
 
 The MIT License (MIT)
