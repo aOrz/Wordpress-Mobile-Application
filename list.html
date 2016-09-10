@@ -57,7 +57,7 @@
 							data: this.up_refresh,
 							success: function(data) {
 								list.page++;
-								var next = data.length < app.per_page ? 1 : 0;
+								var next = data.length < app.per_page ? true : false;
 								console.log('da'+data.length+'d'+ app.per_page+'n'+next)
 								list.imglist = list.imglist.concat(data);
 								mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
@@ -75,11 +75,12 @@
 							route: 'posts',
 							data: this.down_refresh,
 							success: function(data) {
-								var next = data.length < app.per_page ? 1 : 0;
+								var next = data.length < app.per_page ? true : false;
 								console.log('da'+data.length+'d'+ app.per_page+'n'+next)
 								localStorage.setItem('list_data',JSON.stringify(data))
 								list.imglist = data;
 								mui('#pullrefresh').pullRefresh().refresh(true);
+								mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
 								mui('#pullrefresh').pullRefresh().endPulldownToRefresh(next);
 							},
 							error: function() {
