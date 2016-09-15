@@ -12,7 +12,7 @@
   <body>
     <header class="mui-bar mui-bar-nav">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title">链接</h1>
+      <h1 class="mui-title" id="title">链接</h1>
     </header>
     <div class="mui-content">
       <div class="spinner" v-if="loading">
@@ -26,7 +26,7 @@
     <script type="text/javascript" charset="UTF-8">
       mui.init();
       mui.plusReady(function() {
-        mui.openWindow({
+        var view = mui.openWindow({
           url: localStorage.getItem('newurl'),
           id: "webviewssss",
           styles: {
@@ -43,6 +43,21 @@
             title: '正在加载...', //等待对话框上显示的提示内容
           }
         })
+        console.log(JSON.stringify(view))
+        view.addEventListener('loaded',function(){
+        	console.log(document.getElementById('title').value )
+			document.getElementById('title').innerText = view.getTitle();
+        })
+        var back = mui.back;
+        mui.back = function(){
+        	view.canBack( function(e){
+        		if(e.canBack){
+        			view.back();
+        		}else{
+        			back();
+        		}
+        	} );
+        }
       })
     </script>
   </body>
