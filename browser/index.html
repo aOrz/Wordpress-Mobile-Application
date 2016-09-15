@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>首页</title>
-		<link href="../css/mui.min.css" rel="stylesheet" />
-		<link rel="stylesheet" type="text/css" href="../css/mystyle.css"/>
-	</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>首页</title>
+    <link href="../css/mui.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../css/mystyle.css" />
+  </head>
 
-	<body>
-		<header class="mui-bar mui-bar-nav">
-		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-		    <h1 class="mui-title">链接</h1>
-		</header>
-		<div class="mui-content">
-			<div class="spinner" v-if="loading">
-					<div class="bounce1"></div>
-					<div class="bounce2"></div>
-					<div class="bounce3"></div>
-			</div>
-		</div>
-		<script src="../js/mui.min.js"></script>
-		<script type="text/javascript" src="../js/vue.min.js" ></script>
-		<script type="text/javascript" charset="UTF-8">
-			mui.init({
-				subpages: [{
-					url: localStorage.getItem('newurl'),
-					createNew: false,
-					styles: {
-						top: '45px',
-						bottom: 0,
-						bounce: 'vertical'
-					}
-				}]
-			});
-		</script>
-	</body>
+  <body>
+    <header class="mui-bar mui-bar-nav">
+      <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+      <h1 class="mui-title">链接</h1>
+    </header>
+    <div class="mui-content">
+      <div class="spinner" v-if="loading">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
+    <script src="../js/mui.min.js"></script>
+    <script type="text/javascript" src="../js/vue.min.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+      mui.init();
+      mui.plusReady(function() {
+        mui.openWindow({
+          url: localStorage.getItem('newurl'),
+          id: "webviewssss",
+          styles: {
+            top: '45px',
+            bottom: 0,
+            bounce: 'vertical'
+          },
+          createNew: true,
+          show: {
+            autoShwo: true
+          },
+          waiting: {
+            autoShow: false, //自动显示等待框，默认为true
+            title: '正在加载...', //等待对话框上显示的提示内容
+          }
+        })
+      })
+    </script>
+  </body>
 
 </html>
