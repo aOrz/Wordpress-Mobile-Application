@@ -19,20 +19,19 @@ app = {
 var MyHeader = Vue.extend({
 		props: ['lefticon', 'title', 'righticon'],
 		template: '<header class="mui-bar mui-bar-nav">' +
-			'<a id="lefticon" class=" mui-icon {{lefticon}} mui-pull-left"></a>' +
+			'<a id="lefticon" class=" mui-icon mui-pull-left" :class="lefticon"></a>' +
 			'<h1 class="mui-title">{{title}}</h1>' +
-			'<a id="righticon" class="mui-icon {{righticon}} mui-pull-right"></a>' +
+			'<a id="righticon" class="mui-icon mui-pull-right" :class="righticon"></a>' +
 			'</header>'
 	})
 	//图文列表组件
 var MyImgList = Vue.extend({
 		props: ['title', 'excerpt', 'id','author','date'],
-		template: '<li class="mui-table-view-cell mui-media" data-id="{{id}}" data-author="{{author}}">' +
+		template: '<li class="mui-table-view-cell mui-media" :data-id="id" :data-author="author">' +
 			'<a href="javascript:;" >' +
 //			'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
-			'<div class="mui-media-body" >' +
-			'{{{title}}}' +
-			'<p class="text" style="white-space: normal;">{{{excerpt}}}</p>' +
+			'<div class="mui-media-body" v-html="title">' +
+			'<p class="text" style="white-space: normal;" v-html="excerpt"></p>' +
 			'<p class="time">{{date|getdate}}</p>'+
 			'</div>' +
 			'</a>' +
