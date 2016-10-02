@@ -1,242 +1,260 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>文章详情</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>文章详情</title>
 
-		<link href="css/mui.min.css" rel="stylesheet" />
-		<link href="./css/prism.css" rel="stylesheet">
-		<link rel="stylesheet" href="css/mystyle.css" />
-		
-		<style>
-			h1 {
-				font-size: 24px;
-			}
-			
-			h2 {
-				font-size: 21px;
-			}
-			
-			h3 {
-				font-size: 19px;
-			}
-			
-			h4 {
-				font-size: 17px;
-			}
-			
-			h5 {
-				font-size: 15px;
-			}
-			
-			p {
-				color: #000;
-			}
-			
-			.title {
-				padding: 10px 0;
-				/*border-bottom:1px solid #BBBBBB;*/
-			}
-			
-			.page-content {
-				display: block;
-				font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
-				font-size: 16px;
-				line-height 25.6px;
-				margin: 0px;
-				padding: 0 10px 10px 10px;
-				word-wrap: break-word;
-			}
-			
-			img {
-				max-width: 100%;
-			}
-			
-			.aligncenter {
-				display: block;
-				margin: 0 auto 10px;
-			}
-			
-			.alignleft {
-				display: block;
-				margin: 0 0 10px auto;
-			}
-			
-			body,
-			#content {
-				background-color: white;
-			}
-			
-			.time {
-				margin-bottom: 6px;
-			}
-			
-			.time time {
-				color: #BBBBBB;
-			}
-		</style>
-	</head>
+    <link href="css/mui.min.css" rel="stylesheet" />
+    <link href="./css/prism.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/mystyle.css" />
 
-	<body id="de">
-		<my-header title="文章详情" righticon="mui-icon-pengyouquan" lefticon="mui-action-back mui-icon-left-nav"></my-header>
+    <style>
+      h1 {
+        font-size: 24px;
+      }
+      
+      h2 {
+        font-size: 21px;
+      }
+      
+      h3 {
+        font-size: 19px;
+      }
+      
+      h4 {
+        font-size: 17px;
+      }
+      
+      h5 {
+        font-size: 15px;
+      }
+      
+      p {
+        color: #000;
+      }
+      
+      .title {
+        padding: 10px 0;
+        /*border-bottom:1px solid #BBBBBB;*/
+      }
+      
+      .page-content {
+        display: block;
+        font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+        font-size: 16px;
+        line-height 25.6px;
+        margin: 0px;
+        padding: 0 10px 10px 10px;
+        word-wrap: break-word;
+      }
+      
+      img {
+        max-width: 100%;
+      }
+      
+      .aligncenter {
+        display: block;
+        margin: 0 auto 10px;
+      }
+      
+      .alignleft {
+        display: block;
+        margin: 0 0 10px auto;
+      }
+      
+      body,
+      #content {
+        background-color: white;
+      }
+      
+      .time {
+        margin-bottom: 6px;
+      }
+      
+      .time time {
+        color: #BBBBBB;
+      }
+    </style>
+  </head>
 
-		<div class="mui-content page-content mui-soll" id="content">
-			<div class="spinner" v-if="loading">
-				<div class="bounce1"></div>
-				<div class="bounce2"></div>
-				<div class="bounce3"></div>
-			</div>
-			<div class="title">
-				<h1>{{{title}}}</h1>
-			</div>
-			<div class="time" v-if="!loading">
-				<time>{{time}}</time>&nbsp;&nbsp;<a v-on:click="authorpage" data-id="{{author_id}}" data-name="{{author}}">{{author}}</a>
-			</div>
+  <body>
+    <div id="detail">
+      <my-header title="文章详情" 
+      	righticon="mui-icon-pengyouquan" 
+      	lefticon="mui-action-back mui-icon-left-nav"></my-header>
+      <div id="content" class="mui-content page-content mui-soll">
+        <div class="spinner" v-if="loading">
+          <div class="bounce1"></div>
+          <div class="bounce2"></div>
+          <div class="bounce3"></div>
+        </div>
+        <div class="title">
+          <h1 v-html="title"></h1>
+        </div>
+        <div class="time" v-if="!loading">
+          <time>{{time}}</time>&nbsp;&nbsp;
+          <a v-on:click="authorpage"
+          	:data-id="author_id"
+          	:data-name="author">{{author}}</a>
+        </div>
+        <div >
+        	<div v-html="content">
+        		
+        	</div>
+        </div>
+        <div class="hot" v-if="tags[1]&&!loading">
+          <div class="title">
+            <h5>标签</h5>
+          </div>
+          <a v-for="item in tags" :data-id="item.id" :data-name="item.name" v-on:click="tagspage" :key="item.id">
+            <span :data-name="item.name" 
+            	:data-id="item.id"
+            	:class="'mui-badge' + style[parseInt(Math.random()*6)]">{{item.name}}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <script src="js/mui.min.js"></script>
+    <script type="text/javascript" src="js/vue.min.js"></script>
+    <script src="js/prism.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" charset="UTF-8">
+      mui.init();
+      var detailVm = new Vue({
+        el: '#detail',
+        data: {
+          title: '',
+          content: '',
+          time: '',
+          author: '',
+          tags: '',
+          url: '',
+          author_id:'',
+          loading: 1,
+          style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
+        },
+        methods: {
+          tagspage: function(event) {
+            var id = event.target.dataset.id;
+            var name = event.target.dataset.name;
+            var index = plus.webview.getLaunchWebview();
+            mui.fire(index, 'title', {
+                title_name: name
+              })
+              //						console.log(id)
+            var list = plus.webview.getWebviewById('list.html');
+            mui.fire(list, 'reload', {
+              page: 1,
+              context: 'embed',
+              tags: id,
+            });
+            mui.back()
+          },
+          authorpage: function(event) {
+            var id = event.target.dataset.id;
+            var name = event.target.dataset.name;
+            var index = plus.webview.getLaunchWebview();
+            mui.fire(index, 'title', {
+                title_name: name
+              })
+              //						console.log(id)
+            var list = plus.webview.getWebviewById('list.html');
+            mui.fire(list, 'reload', {
+              page: 1,
+              context: 'embed',
+              user: id,
+            });
+            mui.back()
+          }
+        }
+      })
+      var wp = new WP();
+      window.addEventListener('getDetail', function(event) {
+      	console.log(JSON.stringify(detailVm.$data));
+        detailVm.title = '';
+        detailVm.content = '';
+        detailVm.time = '';
+        detailVm.author = '';
+        detailVm.loading = 1;
 
-			{{{content}}}
-			<div class="hot" v-if="tags[1]&&!loading">
-				<div class="title">
-					<h5>标签</h5>
-				</div>
-				<a v-for="item in tags" data-id="{{item.id}}" data-name="{{item.name}}" v-on:click="tagspage" track-by="id"><span data-name = "{{item.name}}" data-id = "{{item.id}}" class="mui-badge {{style[parseInt(Math.random()*6)]}}">{{item.name}}</span></a>
-			</div>
-		</div>
-		<script src="js/mui.min.js"></script>
-		<script type="text/javascript" src="js/vue.min.js"></script>
-		<script src="js/prism.js"></script>  
-		<script type="text/javascript" src="js/app.js"></script>
-		<script type="text/javascript" charset="UTF-8">
-			mui.init();
-			detail = new Vue({
-				el: '#de',
-				data: {
-					title: '',
-					content: '',
-					time: '',
-					author: '',
-					tags: '',
-					url: '',
-					loading: 1,
-					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
-				},
-				methods: {
-					tagspage: function(event) {
-						var id = event.target.dataset.id;
-						var name = event.target.dataset.name;
-						var index = plus.webview.getLaunchWebview();
-						mui.fire(index, 'title', {
-								title_name: name
-							})
-							//						console.log(id)
-						var list = plus.webview.getWebviewById('list.html');
-						mui.fire(list, 'reload', {
-							page: 1,
-							context: 'embed',
-							tags: id,
-						});
-						mui.back()
-					},
-					authorpage: function(event) {
-						console.log('s')
-						var id = event.target.dataset.id;
-						var name = event.target.dataset.name;
-						var index = plus.webview.getLaunchWebview();
-						mui.fire(index, 'title', {
-								title_name: name
-							})
-							//						console.log(id)
-						var list = plus.webview.getWebviewById('list.html');
-						mui.fire(list, 'reload', {
-							page: 1,
-							context: 'embed',
-							user: id,
-						});
-						mui.back()
-					}
-				}
-			})
-			var wp = new WP();
-			window.addEventListener('getDetail', function(event) {
-				detail.title = '';
-				detail.content = '';
-				detail.time = '';
-				detail.author = '';
-				detail.loading = 1;
-				//获得事件参数
-				var id = event.detail.id;
-				var author = event.detail.author;
-				wp.getData({
-					route: 'posts/' + id,
-					data: {},
-					success: function(data) {
-						detail.title = data.title.rendered;
-						detail.content = data.content.rendered;
-						Vue.nextTick(function(){
-							Prism.highlightAll();
-						})
-						detail.time = data.date;
-						detail.url = data.link;
-						detail.loading = 0;
-					},
-					error: function() {
-						detail.loading = 0;
-						mui.alert('文章找不到了~')
-					}
-				})
-				wp.getData({
-					route: 'users/' + author,
-					data: {},
-					success: function(data) {
-						detail.author = data.name;
-						detail.author_id = data.id;
-					},
-					error: function() {}
-				})
-				wp.getData({
-					route: 'tags/',
-					data: {
-						post: id
-					},
-					success: function(data) {
-						detail.tags = data;
-					},
-					error: function() {}
-				})
-			});
-			mui('body').on('tap', 'a', function(e) {
-				var url = this.getAttribute("href");
-				if (url) {
-					localStorage.setItem('newurl', url)
-					var browser = mui.openWindow({
-						url: 'browser/index.html',
-					})
-				}
-			});
-			var shares = null,
-					bhref = false;
-				var Intent = null,
-					File = null,
-					Uri = null,
-					main = null;
-			document.getElementById('righticon').addEventListener('tap', function() {
-				shareSystem(detail.title+' 地址：'+detail.url);
-			})
-			mui.plusReady(function() {
-				
-				// H5 plus事件处理
-				updateSerivces();
-				if (plus.os.name == "Android") {
-					Intent = plus.android.importClass("android.content.Intent");
-					File = plus.android.importClass("java.io.File");
-					Uri = plus.android.importClass("android.net.Uri");
-					main = plus.android.runtimeMainActivity();
-				}
-			})
-			//Prism
+        //获得事件参数
+        var id = event.detail.id;
+        var author = event.detail.author;
+        wp.getData({
+          route: 'posts/' + id,
+          data: {},
+          success: function(data) {
+        
+            detailVm.title = data.title.rendered;
+            detailVm.content = data.content.rendered;
+            detailVm.time = data.date;
+            detailVm.url = data.link;
+            detailVm.loading = 0;
+            Vue.nextTick(function() {
+              Prism.highlightAll();
+            console.log(JSON.stringify(detailVm.$data));
+              
+            })
 
-	</script>
-	</body>
+          },
+          error: function() {
+            detailVm.loading = 0;
+            mui.alert('文章找不到了~')
+          }
+        })
+        wp.getData({
+          route: 'users/' + author,
+          data: {},
+          success: function(data) {
+            detailVm.author = data.name;
+            detailVm.author_id = data.id;
+          },
+          error: function() {}
+        })
+        wp.getData({
+          route: 'tags/',
+          data: {
+            post: id
+          },
+          success: function(data) {
+            detailVm.tags = data;
+          },
+          error: function() {}
+        })
+      });
+      mui('body').on('tap', 'a', function(e) {
+        var url = this.getAttribute("href");
+        if(url) {
+          localStorage.setItem('newurl', url)
+          var browser = mui.openWindow({
+            url: 'browser/index.html',
+          })
+        }
+      });
+      var shares = null,
+        bhref = false;
+      var Intent = null,
+        File = null,
+        Uri = null,
+        main = null;
+      document.getElementById('righticon').addEventListener('tap', function() {
+        shareSystem(detailVm.title + ' 地址：' + detailVm.url);
+      })
+      mui.plusReady(function() {
+
+          // H5 plus事件处理
+          updateSerivces();
+          if(plus.os.name == "Android") {
+            Intent = plus.android.importClass("android.content.Intent");
+            File = plus.android.importClass("java.io.File");
+            Uri = plus.android.importClass("android.net.Uri");
+            main = plus.android.runtimeMainActivity();
+          }
+        })
+        //Prism
+    </script>
+  </body>
 
 </html>

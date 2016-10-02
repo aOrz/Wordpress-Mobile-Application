@@ -15,20 +15,30 @@
 	</head>
 
 	<body>
-		<my-header title="搜索" lefticon="mui-action-back mui-icon-back"></my-header>
-		<div class="mui-content">
-			<div class="mui-content=append">
-				<h5>搜索</h5>
-				<div class="mui-input-row mui-search">
-					<input type="search" id="search" class="mui-input-clear" placeholder="关键词搜索">
+		<div id="content_tags">
+			<my-header title="搜索" lefticon="mui-action-back mui-icon-back"></my-header>
+			<div class="mui-content">
+				<div class="mui-content=append">
+					<h5>搜索</h5>
+					<div class="mui-input-row mui-search">
+						<input type="search" id="search" class="mui-input-clear" placeholder="关键词搜索">
+					</div>
+				</div>
+				<h5> 热门标签</h5>
+				<div class="hot">
+					<a v-for="(item,index) in hot_tags" 
+						:data-id="item.id" 
+						:data-name="item.name" 
+						v-on:click="tagspage" 
+						:key="item.id">
+						<span :data-name = "item.name" 
+							:data-id = "item.id" 
+							class="mui-badge" 
+							:class="style[parseInt(Math.random()*6)]">{{item.name}}</span>
+					</a>
 				</div>
 			</div>
-			<h5> 热门标签</h5>
-			<div class="hot">
-				<a v-for="item in hot_tags" data-id="{{item.id}}" data-name="{{item.name}}" v-on:click="tagspage" track-by="id"><span data-name = "{{item.name}}" data-id = "{{item.id}}" class="mui-badge {{style[parseInt(Math.random()*6)]}}">{{item.name}}</span></a>
-			</div>
 		</div>
-		
 		<script src="js/mui.min.js"></script>
 		<script type="text/javascript" src="js/vue.min.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
@@ -36,7 +46,7 @@
 			mui.init();
 			var wp = new WP();
 			var tags = new Vue({
-				el: 'body',
+				el: '#content_tags',
 				data: {
 					hot_tags: JSON.parse(localStorage.getItem('tags')) || {},
 					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
@@ -52,8 +62,11 @@
 							},
 							success: function(data) {
 								localStorage.setItem('tags', JSON.stringify(data));
-								tags.hot_tags = data;
-//								console.log(JSON.stringify(data))
+								data.forEach(function(val){
+									tags.hot_tags.push(val);
+								})
+
+								console.log(JSON.stringify(tags.hot_tags))
 							}
 						});
 					},
