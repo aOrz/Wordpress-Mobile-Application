@@ -125,6 +125,7 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script type="text/javascript" charset="UTF-8">
       mui.init();
+      var artical = '';
       var detailVm = new Vue({
         el: '#detail',
         data: {
@@ -175,7 +176,9 @@
       })
       var wp = new WP();
       window.addEventListener('getDetail', function(event) {
-      	console.log(JSON.stringify(detailVm.$data));
+      	if(artical === event.detail.id){
+      		return;
+      	}
         detailVm.title = '';
         detailVm.content = '';
         detailVm.time = '';
@@ -183,7 +186,7 @@
         detailVm.loading = 1;
 
         //获得事件参数
-        var id = event.detail.id;
+        var id = artical = event.detail.id;
         var author = event.detail.author;
         wp.getData({
           route: 'posts/' + id,
@@ -197,7 +200,6 @@
             detailVm.loading = 0;
             Vue.nextTick(function() {
               Prism.highlightAll();
-            console.log(JSON.stringify(detailVm.$data));
               
             })
 
