@@ -15,21 +15,16 @@
 
   <body>
     <div id="content">
-    	<!--下拉刷新容器-->
-	    <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
-	      <div class="mui-scroll">
-	        <!--数据列表-->
-	        <ul class="mui-table-view">
-	          <my-img-list v-for="item in imglist" 
-	          	:id="item.id" :date="item.date" 
-	          	:author="item.author" 
-	          	:title="item.title.rendered" 
-	          	:excerpt="item.excerpt.rendered" 
-	          	:key="item.id">
-	          </my-img-list>
-	        </ul>
-	      </div>
-	    </div>
+      <!--下拉刷新容器-->
+      <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+        <div class="mui-scroll">
+          <!--数据列表-->
+          <ul class="mui-table-view">
+            <my-img-list v-for="item in imglist" :id="item.id" :date="item.date" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" :key="item.id">
+            </my-img-list>
+          </ul>
+        </div>
+      </div>
     </div>
     <script src="./js/mui.min.js"></script>
     <script type="text/javascript" src="js/vue.min.js"></script>
@@ -65,7 +60,7 @@
                 success: function(data) {
                   list.page++;
                   var next = data.length < app.per_page ? true : false;
-                  console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
+                  //                console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
                   list.imglist = list.imglist.concat(data);
                   mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
                   //									console.log('上');
@@ -78,12 +73,13 @@
             },
             pulldownRefresh: function() {
               this.page = 2;
+              this.down_refresh.page = 1;
               wp.getData({
                 route: 'posts',
                 data: this.down_refresh,
                 success: function(data) {
                   var next = data.length < app.per_page ? true : false;
-                  console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
+                  //                console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
                   localStorage.setItem('list_data', JSON.stringify(data))
                   list.imglist = data;
                   mui('#pullrefresh').pullRefresh().refresh(true);
