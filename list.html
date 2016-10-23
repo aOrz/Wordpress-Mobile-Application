@@ -229,7 +229,7 @@
           }
         });
         window.addEventListener('reload', function(event) {
-
+					console.log(JSON.stringify(event.detail))
           list.down_refresh = event.detail;
           closeMenu();
           mui('#pullrefresh').pullRefresh().pulldownLoading();

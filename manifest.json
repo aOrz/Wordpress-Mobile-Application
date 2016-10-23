@@ -216,7 +216,8 @@
 					"js/vue.min.js"
 				],
 				"refer": [
-					"tags.html"
+					"tags.html",
+					"nav_bar.html"
 				],
 				"priority": 0
 			},
@@ -276,6 +277,17 @@
 					"css/mui.min.css",
 					"js/mui.min.js",
 					"js/vue.min.js"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"nav_bar.html": {
+				"resources": [
+					"js/mui.min.js",
+					"fonts/mui.ttf",
+					"css/mui.min.css",
+					"js/vue.min.js",
+					"js/app.js"
 				],
 				"refer": [],
 				"priority": 0

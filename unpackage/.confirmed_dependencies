@@ -12,7 +12,8 @@
 		],
 		"refer": [
 			"list.html",
-			"tags.html"
+			"tags.html",
+			"nav_bar.html"
 		]
 	},
 	"list.html": {
@@ -70,5 +71,14 @@
 			"js/vue.min.js"
 		],
 		"refer": []
+	},
+	"nav_bar.html": {
+		"resources": [
+			"js/mui.min.js",
+			"fonts/mui.ttf",
+			"css/mui.min.css",
+			"js/vue.min.js",
+			"js/app.js"
+		]
 	}
 }
