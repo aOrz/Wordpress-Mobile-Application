@@ -63,7 +63,7 @@
 							success: function(data) {
 								localStorage.setItem('tags', JSON.stringify(data));
 								data.forEach(function(val){
-									tags.hot_tags.push(val);
+									tags.$data.hot_tags.push(val);
 								})
 
 								console.log(JSON.stringify(tags.hot_tags))
