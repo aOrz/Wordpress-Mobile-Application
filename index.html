@@ -80,6 +80,10 @@
               context: 'embed',
               'filter[cat]': catid,
             });
+            var nav_bar = plus.webview.getWebviewById('nav_bar.html');
+            mui.fire(nav_bar, 'updateCatid', {
+              catid: catid
+            });
           }
         }
       })

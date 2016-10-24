@@ -56,9 +56,9 @@
     <nav id="nav_bar" class="mui-bar mui-bar-tab">
       <a v-for="(item,index) in items" 
       	class="tab-item tab-item" 
-      	:class="index == clickId?'mui-active':''" 
+      	:class="item.catid == catid?'mui-active':''" 
       	@click="getlist" 
-      	:data-index="index"
+      	:data-catid="item.catid"
       	:data-name="item.name" 
       	:data-id="item.catid">
         <span class="mui-icon" :class="item.class"></span>
@@ -75,7 +75,7 @@
         el: '#nav_bar',
         data: {
           items: app.nav_bar,
-          clickId: 0
+          catid: app.nav_bar[0].catid
         },
         methods: {
           getlist: function(event) {
@@ -83,12 +83,12 @@
           	fatherDataset = event.target.parentNode.dataset;
             var id = dataset.id || fatherDataset.id;
             var name = dataset.name || fatherDataset.name;
-            var indexNum = dataset.index || fatherDataset.index;
+            var catid = dataset.catid || fatherDataset.catid;
             var index = plus.webview.getLaunchWebview();
             mui.fire(index, 'title', {
                 title_name: name
               })
-            nav_bar.$data.clickId = indexNum;
+            nav_bar.$data.catid = catid;
 //              						console.log(id)
             var list = plus.webview.getWebviewById('list.html');
             mui.fire(list, 'reload', {
@@ -99,6 +99,10 @@
           }
         }
       });
+      
+      window.addEventListener('updateCatid', function(event) {
+        nav_bar.$data.catid = event.detail.catid;
+      })
     </script>
   </body>
 
