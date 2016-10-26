@@ -6,7 +6,7 @@ app = {
     name: "奋斗的承诺",
     basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
     per_page: 20,
-    category: [{
+    category: [{//侧滑菜单配置项
       name: 'CSS',
       catid: 65
     }, {
@@ -19,13 +19,13 @@ app = {
       name: "PHP",
       catid: 98
     }],
-    nav_bar: [{
+    nav_bar: [{//底部菜单配置项
     	name: '首页',
-    	class: 'mui-icon-home'
+    	class: 'mui-icon-home'//没有catid 默认为首页
     },
     {
     	name: 'JS',
-    	class: 'mui-icon-compose',
+    	class: 'mui-icon-compose',//图标样式
     	catid: 182
     },
     {
