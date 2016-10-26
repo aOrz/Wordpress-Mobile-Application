@@ -2,15 +2,19 @@
 利用`wordpress`作为后台，构建`App`(安卓和IOS)
 -------------------
 ###更新内容
-2016.5.15：支持代码高亮，支持语言PHP,JS,CSS,Java等，代码格式`<pre class="lang:js">code</pre>`或`<pre class="lang:js"><code>code<code></pre>`,代码高亮使用了prismjs，做了一些修改，如有其它需求可修改此插件。
-###案例体验
-我的博客：[奋斗的承诺](https://github.com/4013465w/Wordpress-Mobile-Application/blob/master/unpackage/release/myblog_0331140049.apk?raw=true)
-###用到的技术
-1. html5+:[http://www.html5plus.org/doc/h5p.html](http://www.html5plus.org/doc/h5p.html)
+2016.10.24: 添加底部菜单栏
+2016.10.02: 升级 vue 2.0 版本
+2016.05.15：支持代码高亮，支持语言PHP,JS,CSS,Java等，代码格式`<pre class="lang:js">code</pre>`或`<pre class="lang:js"><code>code<code></pre>`,代码高亮使用了prismjs，做了一些修改，如有其它需求可修改此插件。
 
-2. mui:[http://dev.dcloud.net.cn/mui/](http://dev.dcloud.net.cn/mui/)
+###定制 APP
 
-3. hbuilder:[http://www.dcloud.io/](http://www.dcloud.io/)
+#### 修改主题颜色
+
+下载本项目代码，打开css/mystyle.css最后几行有注释声明可以修改颜色值，修改颜色值即可自定义主题颜色。
+
+#### 修改底部菜单
+
+在`/js/app.js` 中修改 `nav_bar` 数据可以修改底部菜单栏，其中 `class` 为图标样式，可选样式参考 [所有图标](http://dev.dcloud.net.cn/mui/ui/#icon)
 
 -----------------------
 ###构建方法
@@ -27,10 +31,18 @@
 6. 点击发行，发行为原生应用，设置好开发者证书，然后打包。
 
 打包成功后会自动下载到本地目录，这样一个`App`就制作好了。
-###修改主题颜色
-下载本项目代码，打开css/mystyle.css最后几行有注释声明可以修改颜色值，修改颜色值即可自定义主题颜色。
 
-###项目截图
+###案例体验
+我的博客：[奋斗的承诺](https://github.com/4013465w/Wordpress-Mobile-Application/blob/master/unpackage/release/myblog_0331140049.apk?raw=true)
+
+###用到的技术
+1. html5+:[http://www.html5plus.org/doc/h5p.html](http://www.html5plus.org/doc/h5p.html)
+
+2. mui:[http://dev.dcloud.net.cn/mui/](http://dev.dcloud.net.cn/mui/)
+
+3. hbuilder:[http://www.dcloud.io/](http://www.dcloud.io/)
+
+### 项目截图
 ![首页](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/1.png)
 ![菜单](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/2.png)
 ![搜索](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/3.png)
