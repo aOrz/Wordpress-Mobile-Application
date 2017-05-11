@@ -72,6 +72,7 @@
               })
             },
             pulldownRefresh: function() {
+            	console.log(JSON.stringify(this.down_refresh))
               this.page = 2;
               this.down_refresh.page = 1;
               wp.getData({

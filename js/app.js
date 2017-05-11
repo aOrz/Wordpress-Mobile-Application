@@ -4,11 +4,11 @@
  */
 app = {
     name: "奋斗的承诺",
-    basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
+    basic_url: 'http://sgsk.sgu.edu.cn/index.php/wp-json/wp/v2/',
     per_page: 20,
     category: [{//侧滑菜单配置项
       name: 'CSS',
-      catid: 65
+      catid: 1
     }, {
       name: 'HTML',
       catid: 59
@@ -86,7 +86,11 @@ WP.prototype.getData = function(inData) {
     var url = inData.url || app.basic_url;
     inData.route = inData.route || '';
     inData.data = inData.data || {};
+    if (inData.data.categories && inData.data.categories[0] == null) {
+    		delete inData.data.categories;
+    }
     inData.data.per_page = inData.data.per_page || app.per_page;
+    console.log(JSON.stringify(inData.data))
     mui.ajax(url + inData.route, {
       data: inData.data,
       dataType: 'json',
