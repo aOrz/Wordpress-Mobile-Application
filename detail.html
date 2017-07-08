@@ -231,7 +231,7 @@
       });
       mui('body').on('tap', 'a', function(e) {
         var url = this.getAttribute("href");
-        if(url) {
+        if(url && url[0] != '#') {
           localStorage.setItem('newurl', url)
           var browser = mui.openWindow({
             url: 'browser/index.html',
