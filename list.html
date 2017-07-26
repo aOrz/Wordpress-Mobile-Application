@@ -20,7 +20,7 @@
         <div class="mui-scroll">
           <!--数据列表-->
           <ul class="mui-table-view">
-            <my-img-list v-for="item in imglist" :id="item.id" :date="item.date" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" :key="item.id">
+            <my-img-list v-for="item in imglist" :id="item.id" :date="item.date" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" :featured_image_src="item.featured_image_src" :key="item.id">
             </my-img-list>
           </ul>
         </div>
@@ -78,12 +78,13 @@
                 route: 'posts',
                 data: this.down_refresh,
                 success: function(data) {
+                	console.log(JSON.stringify(data))
                   var next = data.length < app.per_page ? true : false;
                   //                console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
                   localStorage.setItem('list_data', JSON.stringify(data))
                   list.imglist = data;
-                  mui('#pullrefresh').pullRefresh().refresh(true);
-                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
+//                mui('#pullrefresh').pullRefresh().refresh(true);
+//                mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
                   mui('#pullrefresh').pullRefresh().endPulldownToRefresh(next);
                 },
                 error: function() {
