@@ -2,7 +2,10 @@
 利用`wordpress`作为后台，构建`App`(安卓和IOS)
 -------------------
 ###更新内容
+2017.6.26: 文章列表页增加截图
+
 2016.10.24: 添加底部菜单栏
+
 2016.10.02: 升级 vue 2.0 版本
 2016.05.15：支持代码高亮，支持语言PHP,JS,CSS,Java等，代码格式`<pre class="lang:js">code</pre>`或`<pre class="lang:js"><code>code<code></pre>`,代码高亮使用了prismjs，做了一些修改，如有其它需求可修改此插件。
 
@@ -31,6 +34,42 @@
 6. 点击发行，发行为原生应用，设置好开发者证书，然后打包。
 
 打包成功后会自动下载到本地目录，这样一个`App`就制作好了。
+
+### 列表页增加图片
+
+当前主题的`functions.php`下添加如下代码即可
+
+```php
+// 添加缩略图
+add_action( 'rest_api_init', 'add_thumbnail_to_JSON' );
+function add_thumbnail_to_JSON() {
+//Add featured image
+register_rest_field( 'post',
+    'featured_image_src', //NAME OF THE NEW FIELD TO BE ADDED - you can call this anything
+    array(
+        'get_callback'    => 'get_image_src',
+        'update_callback' => null,
+        'schema'          => null,
+         )
+    );
+}
+
+// 自动缩略图
+function get_image_src( $object, $field_name, $request ) {
+  $first_img = '';
+  $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $object['content']['rendered'], $matches);
+  $first_img = $matches [1] [0];
+
+  if(empty($first_img)){
+    // echo get_bloginfo ( 'stylesheet_directory' );
+    // echo '/img/default.jpg';
+    $first_img = 'https://fddcn.cn/uploads/suoluo/'.rand(1,15).'.png';
+  }
+    return $first_img;
+}
+```
+
+
 
 ###案例体验
 我的博客：[奋斗的承诺](https://github.com/4013465w/Wordpress-Mobile-Application/blob/master/unpackage/release/myblog_0331140049.apk?raw=true)
