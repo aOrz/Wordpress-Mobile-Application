@@ -149,11 +149,14 @@
 	color: #FFF;
 }
 .text{
-	margin-top: 5px;
-	/*max-height: 42px;*/
+	 max-height: 22px;
 	 white-space: normal; 
 	 /*overflow: hidden;*/
 }
 .mui-media-body .time{
 	text-align: right;
 }
+.mui-media-body {
+	height: 50px;
+}
+

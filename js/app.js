@@ -56,15 +56,26 @@ var MyHeader = Vue.extend({
       '<a id="righticon" class="mui-icon mui-pull-right" :class="righticon"></a>' +
       '</header>'
   })
+
+//<li class="mui-table-view-cell mui-media">
+//      <a href="javascript:;">
+//          <img class="mui-media-object mui-pull-right" src="../images/shuijiao.jpg">
+//          <div class="mui-media-body">
+//              幸福
+//              <p class='mui-ellipsis'>能和心爱的人一起睡觉，是件幸福的事情；可是，打呼噜怎么办？</p>
+//          </div>
+//      </a>
+//  </li>
   //图文列表组件
 var MyImgList = Vue.extend({
-    props: ['title', 'excerpt', 'id', 'author', 'date'],
+    props: ['title', 'excerpt', 'id', 'author', 'date', 'featured_image_src'],
     template: '<li class="mui-table-view-cell mui-media" :data-id="id" :data-author="author">' +
       '<a href="javascript:;" >' +
-      //			'<img class="mui-media-object mui-pull-right" src="./img/shuijiao.jpg">' +
-      '<div class="mui-media-body" v-html="title">' +
-      '<p class="text" style="white-space: normal;" v-html="excerpt"></p>' +
-      '<p class="time">{{date|getdate}}</p>' +
+        '<img class="mui-media-object mui-pull-left" v-if="featured_image_src" :src="featured_image_src">' +
+      '<div class="mui-media-body mui-ellipsis">' +
+      '{{title}}'+
+      '<p class="mui-ellipsis text" v-html="excerpt"></p>' +
+//    '<p class="time">{{date|getdate}}</p>' +
       '</div>' +
       '</a>' +
       '</li>'
