@@ -1,0 +1,8 @@
+title: 快速构建博客的移动端应用
+description: 为wordpress 博客开发移动应用（安卓/IOS）
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-cayman
+
+gems:
+  - jekyll-mentions
