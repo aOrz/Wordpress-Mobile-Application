@@ -78,7 +78,7 @@
             mui.fire(list, 'reload', {
               page: 1,
               context: 'embed',
-              'filter[cat]': catid,
+              'categories': catid,
             });
             var nav_bar = plus.webview.getWebviewById('nav_bar.html');
             mui.fire(nav_bar, 'updateCatid', {
