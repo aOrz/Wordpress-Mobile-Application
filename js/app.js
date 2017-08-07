@@ -4,7 +4,7 @@
  */
 app = {
     name: "奋斗的承诺",
-    basic_url: 'http://www.fddcn.cn/wp-json/wp/v2/',
+    basic_url: 'https://fddcn.cn/wp-json/wp/v2/',
     per_page: 20,
     category: [{//侧滑菜单配置项
       name: 'CSS',
@@ -26,7 +26,7 @@ app = {
     {
     	name: 'JS',
     	class: 'mui-icon-compose',//图标样式
-    	catid: 182
+    	catid: '182'
     },
     {
     	name: 'css',

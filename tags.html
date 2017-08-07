@@ -48,7 +48,7 @@
 			var tags = new Vue({
 				el: '#content_tags',
 				data: {
-					hot_tags: JSON.parse(localStorage.getItem('tags')) || {},
+					hot_tags: JSON.parse(localStorage.getItem('tags')) || [],
 					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
 				},
 				methods: {
