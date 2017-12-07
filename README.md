@@ -83,11 +83,16 @@ function get_image_src( $object, $field_name, $request ) {
 3. hbuilder:[http://www.dcloud.io/](http://www.dcloud.io/)
 
 ### 项目截图
-![首页](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/1.png)
-![菜单](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/2.png)
-![搜索](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/3.png)
-![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/4.png)
-![正文](https://raw.githubusercontent.com/4013465w/Wordpress-Mobile-Application/master/unpackage/screenshot/5.png)
+
+<img src="unpackage/screenshot/1.png" width="200"/>  <img src="unpackage/screenshot/2.png" width="200"/>  <img src="unpackage/screenshot/5.png" width="200"/>
+<img src="unpackage/screenshot/3.png" width="200"/>  <img src="unpackage/screenshot/4.png" width="200"/> 
+
+## 分享交流
+
+打赏|加小助手进微信群
+:---:|:---:
+<img src="https://fddcn.cn/wp-content/uploads/2017/12/WechatIMG117.jpeg" width="200"/>  |  <img src="https://fddcn.cn/wp-content/uploads/2017/12/WechatIMG116.jpeg" width="200"/>
+
 ##License
 
 The MIT License (MIT)
