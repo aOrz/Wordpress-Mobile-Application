@@ -65,8 +65,8 @@
                   //									console.log('上');
                 },
                 error: function() {
-                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(0);
-                  mui.alert('好像出错了哦~')
+                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(1);
+
                 }
               })
             },
@@ -77,14 +77,11 @@
                 route: 'posts',
                 data: this.down_refresh,
                 success: function(data) {
-                	console.log(JSON.stringify(data))
-                  var next = data.length < app.per_page ? true : false;
-                  //                console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
                   localStorage.setItem('list_data', JSON.stringify(data))
                   list.imglist = data;
-//                mui('#pullrefresh').pullRefresh().refresh(true);
+               mui('#pullrefresh').pullRefresh().refresh(true);
 //                mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
-                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh(next);
+                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
                 },
                 error: function() {
                   mui('#pullrefresh').pullRefresh().endPulldownToRefresh(0);
