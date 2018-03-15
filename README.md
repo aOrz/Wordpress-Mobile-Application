@@ -64,7 +64,7 @@ function get_image_src( $object, $field_name, $request ) {
   if(empty($first_img)){
     // echo get_bloginfo ( 'stylesheet_directory' );
     // echo '/img/default.jpg';
-    $first_img = 'https://fddcn.cn/uploads/suoluo/'.rand(1,15).'.png';
+    $first_img = 'https://wx2.sinaimg.cn/crop.0.60.600.450.240/bc1249d0gy1fpcnyjbd38j20go0go0ta.jpg';
   }
     return $first_img;
 }
