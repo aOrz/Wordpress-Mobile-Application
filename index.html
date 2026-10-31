@@ -110,7 +110,6 @@
         if(!hasClass(menu, 'trans')) menu.className += " " + 'trans';
       })
       window.addEventListener('title', function(event) {
-        console.log(JSON.stringify(event.detail))
         mv.title_name = event.detail.title_name;
       })
       mui.plusReady(function() {

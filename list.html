@@ -31,13 +31,22 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script>
       var wp = new WP();
+      /* 统一清洗接口返回的 HTML，防止注入 */
+      function normalizePosts(data) {
+        return (data || []).map(function(item) {
+          if(item.excerpt && item.excerpt.rendered) {
+            item.excerpt.rendered = util.sanitize(item.excerpt.rendered);
+          }
+          return item;
+        });
+      }
       /*
        * VUE
        */
       var list = new Vue({
           el: '#content',
           data: {
-            imglist: JSON.parse(localStorage.getItem('list_data')) || new Array(),
+            imglist: util.getCache('list_data') || [],
             page: 2,
             down_refresh: {
               page: 1,
@@ -59,14 +68,12 @@
                 success: function(data) {
                   list.page++;
                   var next = data.length < app.per_page ? true : false;
-                  //                console.log('da' + data.length + 'd' + app.per_page + 'n' + next)
-                  list.imglist = list.imglist.concat(data);
+                  list.imglist = list.imglist.concat(normalizePosts(data));
                   mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
-                  //									console.log('上');
                 },
                 error: function() {
-                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(1);
-
+                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+                  mui.toast('加载失败，请检查网络');
                 }
               })
             },
@@ -77,15 +84,15 @@
                 route: 'posts',
                 data: this.down_refresh,
                 success: function(data) {
-                  localStorage.setItem('list_data', JSON.stringify(data))
-                  list.imglist = data;
-               mui('#pullrefresh').pullRefresh().refresh(true);
-//                mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
+                  var posts = normalizePosts(data);
+                  util.setCache('list_data', posts);
+                  list.imglist = posts;
+                  mui('#pullrefresh').pullRefresh().refresh(true);
                   mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
                 },
                 error: function() {
-                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh(0);
-                  mui.alert('好像出错了哦~')
+                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                  mui.toast('好像出错了哦~');
                 }
               })
             }
@@ -226,17 +233,15 @@
           }
         });
         window.addEventListener('reload', function(event) {
-					console.log(JSON.stringify(event.detail))
           list.down_refresh = event.detail;
           closeMenu();
           mui('#pullrefresh').pullRefresh().pulldownLoading();
         })
       })
+      /* 首屏直接加载，不再硬等 1 秒 */
       if(mui.os.plus) {
         mui.plusReady(function() {
-          setTimeout(function() {
-            mui('#pullrefresh').pullRefresh().pulldownLoading()
-          }, 1000);
+          mui('#pullrefresh').pullRefresh().pulldownLoading();
         });
       } else {
         mui.ready(function() {
