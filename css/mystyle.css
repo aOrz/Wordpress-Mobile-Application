@@ -195,3 +195,206 @@ html {
 	object-fit: cover;
 	background: #f2f2f2;
 }
+
+/* ============ 主题变量（深色模式跟随系统） ============ */
+:root {
+	--bg: #ffffff;
+	--text: #000000;
+	--text-sub: #666666;
+	--muted: #999999;
+	--line: #e5e5e5;
+	--card: #ffffff;
+	--code-bg: #f6f8fa;
+	--skeleton: #eeeeee;
+	--skeleton-hi: #f7f7f7;
+	--accent: #33cccc;
+}
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #1c1c1e;
+		--text: #ececec;
+		--text-sub: #b0b0b0;
+		--muted: #8a8a8a;
+		--line: #333333;
+		--card: #242426;
+		--code-bg: #2c2c2e;
+		--skeleton: #2a2a2c;
+		--skeleton-hi: #38383a;
+		--accent: #2bb3b3;
+	}
+	html,
+	body,
+	.mui-content,
+	#content,
+	.mui-table-view,
+	.mui-table-view-cell,
+	.mui-table-view-cell > a,
+	.mui-input-row,
+	.mui-search {
+		background-color: var(--bg) !important;
+		color: var(--text);
+	}
+	.mui-table-view-cell:after {
+		background-color: var(--line) !important;
+	}
+	.mui-bar-nav,
+	.menu {
+		background-color: #242426 !important;
+	}
+	.page-content p,
+	.page-content,
+	.title h1,
+	.time time,
+	.mui-media-body {
+		color: var(--text);
+	}
+	.page-content pre,
+	.page-content pre code {
+		background: var(--code-bg) !important;
+		color: var(--text);
+	}
+	.mui-table-view-cell > a:not(.mui-btn) {
+		color: var(--text);
+	}
+	.mui-search .mui-input-clear {
+		background-color: var(--card);
+		color: var(--text);
+	}
+}
+
+/* ============ 骨架屏 ============ */
+.skeleton-list .skeleton-item {
+	display: flex;
+	align-items: center;
+	padding: 12px 15px;
+	background: var(--card);
+}
+.skeleton-thumb,
+.skeleton-line {
+	display: block;
+	background: linear-gradient(90deg, var(--skeleton) 25%, var(--skeleton-hi) 37%, var(--skeleton) 63%);
+	background-size: 400% 100%;
+	-webkit-animation: skeleton-shimmer 1.4s ease infinite;
+	animation: skeleton-shimmer 1.4s ease infinite;
+}
+.skeleton-thumb {
+	width: 80px;
+	height: 60px;
+	border-radius: 4px;
+	margin-right: 12px;
+	flex: 0 0 80px;
+}
+.skeleton-lines {
+	flex: 1;
+	min-width: 0;
+}
+.skeleton-line {
+	height: 12px;
+	border-radius: 3px;
+	margin-bottom: 10px;
+}
+.skeleton-line:last-child {
+	margin-bottom: 0;
+}
+.skeleton-line.w80 {
+	width: 80%;
+}
+.skeleton-line.w55 {
+	width: 55%;
+}
+@-webkit-keyframes skeleton-shimmer {
+	0% { background-position: 100% 50%; }
+	100% { background-position: 0 50%; }
+}
+@keyframes skeleton-shimmer {
+	0% { background-position: 100% 50%; }
+	100% { background-position: 0 50%; }
+}
+
+/* ============ 空态 / 错误态 ============ */
+.list-empty {
+	padding: 60px 30px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 14px;
+}
+.list-empty-text {
+	margin-bottom: 16px;
+	line-height: 1.6;
+}
+.list-empty-btn {
+	display: inline-block;
+	padding: 7px 22px;
+	border: 1px solid var(--accent);
+	border-radius: 16px;
+	color: var(--accent);
+	font-size: 14px;
+}
+.list-empty-btn:active {
+	opacity: .6;
+}
+.tags-empty {
+	padding: 24px 15px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 13px;
+}
+
+/* ============ 正文图片预览 ============ */
+.img-preview-mask {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 9999;
+	background: rgba(0, 0, 0, .92);
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-animation: preview-fade .18s ease;
+	animation: preview-fade .18s ease;
+}
+.img-preview-img {
+	max-width: 94%;
+	max-height: 82%;
+	object-fit: contain;
+	border-radius: 2px;
+}
+.img-preview-tip {
+	position: absolute;
+	bottom: 26px;
+	left: 0;
+	right: 0;
+	text-align: center;
+	color: #cfcfcf;
+	font-size: 12px;
+}
+@-webkit-keyframes preview-fade {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+@keyframes preview-fade {
+	from { opacity: 0; }
+	to { opacity: 1; }
+}
+
+/* 正文图片可点击的视觉提示 */
+.page-content img {
+	cursor: -webkit-zoom-in;
+	cursor: zoom-in;
+}
+
+/* ============ 内嵌网页提示 ============ */
+.browser-tip {
+	padding: 40px 20px 20px;
+	text-align: center;
+	color: var(--muted);
+	font-size: 13px;
+}

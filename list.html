@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#33cccc">
 
     <link rel="stylesheet" href="css/mui.min.css">
     <link rel="stylesheet" href="css/mystyle.css" />
@@ -18,11 +19,26 @@
       <!--下拉刷新容器-->
       <div id="pullrefresh" class="mui-content mui-scroll-wrapper">
         <div class="mui-scroll">
+          <!--骨架屏：首屏与下拉刷新时占位，避免纯白屏-->
+          <ul class="mui-table-view skeleton-list" v-if="loading">
+            <li class="mui-table-view-cell mui-media skeleton-item" v-for="n in 6" :key="'sk' + n">
+              <span class="skeleton-thumb"></span>
+              <div class="skeleton-lines">
+                <span class="skeleton-line w80"></span>
+                <span class="skeleton-line w55"></span>
+              </div>
+            </li>
+          </ul>
           <!--数据列表-->
-          <ul class="mui-table-view">
+          <ul class="mui-table-view" v-if="imglist.length">
             <my-img-list v-for="item in imglist" :id="item.id" :date="item.date" :author="item.author" :title="item.title.rendered" :excerpt="item.excerpt.rendered" :featured_image_src="item.featured_image_src" :key="item.id">
             </my-img-list>
           </ul>
+          <!--空态 / 错误态-->
+          <div class="list-empty" v-if="!loading && !imglist.length">
+            <p class="list-empty-text">{{errorState ? '加载失败了，检查下网络连接' : '这里还没有内容'}}</p>
+            <a class="list-empty-btn" v-on:click="retry" v-if="errorState">重新加载</a>
+          </div>
         </div>
       </div>
     </div>
@@ -31,6 +47,8 @@
     <script type="text/javascript" src="js/app.js"></script>
     <script>
       var wp = new WP();
+      var LIST_CACHE_PREFIX = 'list:';
+
       /* 统一清洗接口返回的 HTML，防止注入 */
       function normalizePosts(data) {
         return (data || []).map(function(item) {
@@ -40,36 +58,122 @@
           return item;
         });
       }
+
+      /* 按文章 id 去重，避免分页边界重复渲染同一篇 */
+      function mergeUnique(oldList, newList) {
+        var seen = {};
+        var out = [];
+        var i;
+        for(i = 0; i < oldList.length; i++) {
+          if(!seen[oldList[i].id]) {
+            seen[oldList[i].id] = 1;
+            out.push(oldList[i]);
+          }
+        }
+        for(i = 0; i < newList.length; i++) {
+          if(!seen[newList[i].id]) {
+            seen[newList[i].id] = 1;
+            out.push(newList[i]);
+          }
+        }
+        return out;
+      }
+
       /*
        * VUE
        */
       var list = new Vue({
           el: '#content',
           data: {
-            imglist: util.getCache('list_data') || [],
-            page: 2,
-            down_refresh: {
-              page: 1,
+            imglist: [],
+            page: 1, // 已成功加载的页码
+            hasMore: true,
+            loading: true,
+            errorState: false,
+            /* 筛选条件：categories / tags / search / user，切换来源时整组重置 */
+            query: {
               context: 'embed'
-            }
+            },
+            firstLoad: true
           },
           computed: {
-            up_refresh: function() {
-              var up = this.down_refresh;
-              up.page = this.page;
-              return up;
+            /* 缓存键必须带上筛选条件，否则重启后会看到上次筛选的结果 */
+            cacheKey: function() {
+              return LIST_CACHE_PREFIX + util.paramString(this.query);
             }
           },
           methods: {
-            pullupRefresh: function() {
+            /* 组装请求参数，页码由调用方传入，不再依赖 computed 副作用 */
+            buildParams: function(page) {
+              var params = {};
+              for(var k in this.query) {
+                if(Object.prototype.hasOwnProperty.call(this.query, k)) params[k] = this.query[k];
+              }
+              params.page = page;
+              return params;
+            },
+            /* 恢复首页缓存，命中则免去首屏网络等待 */
+            restoreCache: function() {
+              var cached = util.getCache(this.cacheKey);
+              if(cached && cached.length) {
+                this.imglist = cached;
+                this.page = 1;
+                this.hasMore = cached.length >= app.per_page;
+                this.loading = false;
+                return true;
+              }
+              return false;
+            },
+            /* 首屏加载：只做同步读缓存，网络请求统一交给 plusReady 后的 pulldownLoading，
+               避免首屏同时发两条相同的第一页请求 */
+            firstLoadList: function() {
+              this.restoreCache();
+            },
+            /* 第一页加载，showSkeleton 控制是否展示骨架屏 */
+            loadFirstPage: function(showSkeleton) {
+              var self = this;
+              if(showSkeleton) this.loading = true;
+              this.errorState = false;
               wp.getData({
                 route: 'posts',
-                data: this.up_refresh,
+                data: this.buildParams(1),
                 success: function(data) {
-                  list.page++;
-                  var next = data.length < app.per_page ? true : false;
-                  list.imglist = list.imglist.concat(normalizePosts(data));
-                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(next);
+                  var posts = normalizePosts(data);
+                  self.imglist = posts;
+                  self.page = 1;
+                  self.hasMore = posts.length >= app.per_page;
+                  self.loading = false;
+                  self.errorState = false;
+                  util.setCache(self.cacheKey, posts);
+                  mui('#pullrefresh').pullRefresh().refresh(true);
+                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                },
+                error: function() {
+                  self.loading = false;
+                  self.errorState = true;
+                  mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+                  if(self.imglist.length) mui.toast('刷新失败，先把上次的内容给你');
+                }
+              })
+            },
+            retry: function() {
+              this.loadFirstPage(true);
+            },
+            pullupRefresh: function() {
+              if(!list.hasMore) {
+                mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+                return;
+              }
+              wp.getData({
+                route: 'posts',
+                data: list.buildParams(list.page + 1),
+                success: function(data) {
+                  var posts = normalizePosts(data);
+                  if(posts.length) list.page++;
+                  list.imglist = mergeUnique(list.imglist, posts);
+                  list.hasMore = posts.length >= app.per_page;
+                  list.errorState = false;
+                  mui('#pullrefresh').pullRefresh().endPullupToRefresh(!list.hasMore);
                 },
                 error: function() {
                   mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
@@ -78,15 +182,19 @@
               })
             },
             pulldownRefresh: function() {
-              this.page = 2;
-              this.down_refresh.page = 1;
+              // 下拉刷新：整组缓存失效，回到第一页
+              util.clearCacheByPrefix(LIST_CACHE_PREFIX);
+              list.hasMore = true;
               wp.getData({
                 route: 'posts',
-                data: this.down_refresh,
+                data: list.buildParams(1),
                 success: function(data) {
                   var posts = normalizePosts(data);
-                  util.setCache('list_data', posts);
                   list.imglist = posts;
+                  list.page = 1;
+                  list.hasMore = posts.length >= app.per_page;
+                  list.errorState = false;
+                  util.setCache(list.cacheKey, posts);
                   mui('#pullrefresh').pullRefresh().refresh(true);
                   mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
                 },
@@ -101,7 +209,7 @@
             'my-img-list': MyImgList
           }
         })
-        //						alert(list.down_refresh['categories'])
+
       mui.init({
         preloadPages: [{
           url: 'detail.html',
@@ -114,6 +222,7 @@
           },
           up: {
             contentrefresh: '正在加载...',
+            contentnomore: '没有更多了',
             callback: list.pullupRefresh
           }
         }
@@ -125,6 +234,7 @@
         //获取id
         var id = this.getAttribute("data-id");
         var author = this.getAttribute("data-author");
+        if(!id) return;
         var detail_page = plus.webview.getWebviewById('detail.html');
         mui.fire(detail_page, 'getDetail', {
           id: id,
@@ -233,20 +343,34 @@
           }
         });
         window.addEventListener('reload', function(event) {
-          list.down_refresh = event.detail;
+          var detail = event.detail || {};
+          var query = {
+            context: detail.context || 'embed'
+          };
+          // 只接管真正的筛选字段，page 由列表自己控制
+          if(detail.categories !== undefined && detail.categories !== '') query.categories = detail.categories;
+          if(detail.tags !== undefined && detail.tags !== '') query.tags = detail.tags;
+          if(detail.search !== undefined && detail.search !== '') query.search = detail.search;
+          if(detail.user !== undefined && detail.user !== '') query.user = detail.user;
+          list.query = query;
+          list.hasMore = true;
+          list.imglist = [];
+          list.loading = true;
+          list.errorState = false;
+          util.resetScroll('.mui-scroll-wrapper');
           closeMenu();
           mui('#pullrefresh').pullRefresh().pulldownLoading();
         })
       })
-      /* 首屏直接加载，不再硬等 1 秒 */
-      if(mui.os.plus) {
+      /* 首次进入先用缓存兜底，有缓存直接出内容，避免骨架屏空转 */
+      list.firstLoadList();
+      if(window.plus) {
         mui.plusReady(function() {
           mui('#pullrefresh').pullRefresh().pulldownLoading();
         });
       } else {
-        mui.ready(function() {
-          mui('#pullrefresh').pullRefresh().pulldownLoading();
-        });
+        /* 浏览器里没有 plus，直接请求，否则会一直停在骨架屏 */
+        list.loadFirstPage(true);
       }
     </script>
   </body>

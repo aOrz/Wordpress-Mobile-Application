@@ -67,7 +67,7 @@
       
       body,
       #content {
-        background-color: white;
+        background-color: var(--bg, white);
       }
       .title h1{
       	line-height: 1.3;
@@ -103,18 +103,18 @@
           	:data-name="author">{{author}}</a>
         </div>
         <div >
-        	<div v-html="content">
+        	<div v-html="content" id="article-body">
         		
         	</div>
         </div>
-        <div class="hot" v-if="tags[1]&&!loading">
+        <div class="hot" v-if="tags && tags.length && !loading">
           <div class="title">
             <h5>标签</h5>
           </div>
-          <a v-for="item in tags" :data-id="item.id" :data-name="item.name" v-on:click="tagspage" :key="item.id">
+          <a v-for="(item,index) in tags" :data-id="item.id" :data-name="item.name" v-on:click="tagspage" :key="item.id">
             <span :data-name="item.name" 
             	:data-id="item.id"
-            	:class="'mui-badge' + style[parseInt(Math.random()*6)]">{{item.name}}</span>
+            	:class="tagClass(index)">{{item.name}}</span>
           </a>
         </div>
       </div>
@@ -126,6 +126,9 @@
     <script type="text/javascript" charset="UTF-8">
       mui.init();
       var artical = '';
+      var DETAIL_CACHE_PREFIX = 'detail:';
+      /* 标签配色按索引固定，避免每次渲染随机变色导致闪烁 */
+      var TAG_STYLES = ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple'];
       var detailVm = new Vue({
         el: '#detail',
         data: {
@@ -133,13 +136,15 @@
           content: '',
           time: '',
           author: '',
-          tags: '',
+          tags: [],
           url: '',
           author_id:'',
-          loading: 1,
-          style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
+          loading: 1
         },
         methods: {
+          tagClass: function(index) {
+            return 'mui-badge' + (TAG_STYLES[index % TAG_STYLES.length] || '');
+          },
           tagspage: function(event) {
             var id = event.target.dataset.id;
             var name = event.target.dataset.name;
@@ -175,49 +180,73 @@
         }
       })
       var wp = new WP();
-      window.addEventListener('getDetail', function(event) {
-      	if(artical === event.detail.id){
-      		return;
-      	}
-        detailVm.title = '';
-        detailVm.content = '';
-        detailVm.time = '';
-        detailVm.author = '';
-        detailVm.loading = 1;
 
-        //获得事件参数
-        var id = artical = event.detail.id;
-        var author = event.detail.author;
+      /* HTML 转纯文本，用于 document.title */
+      function plainText(html) {
+        if(!html) return '';
+        var tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        return (tmp.textContent || tmp.innerText || '').replace(/\s+/g, ' ').trim();
+      }
+
+      /* 统一渲染入口：缓存与网络两条路径共用，避免逻辑分叉 */
+      function renderArticle(data) {
+        if(!data || !data.id) return;
+        detailVm.title = util.sanitize(data.title && data.title.rendered);
+        detailVm.content = util.sanitize(data.content && data.content.rendered);
+        detailVm.time = util.formatDate(data.date);
+        if(data.link) detailVm.url = data.link;
+        detailVm.loading = 0;
+        document.title = plainText(detailVm.title).slice(0, 20) || '文章详情';
+        Vue.nextTick(function() {
+          if(window.Prism) Prism.highlightAll();
+        })
+      }
+
+      window.addEventListener('getDetail', function(event) {
+        var detail = event.detail || {};
+        var id = detail.id;
+        if(!id) return;
+        if(artical === id) {
+          return; // 同一篇直接复用已渲染内容
+        }
+        artical = id;
+        util.resetScroll('#content'); // 换文章回到顶部，不停在上次的阅读位置
+        detailVm.loading = 1;
+        detailVm.tags = [];
+        detailVm.author = '';
+        detailVm.author_id = '';
+
+        // 先吃本地缓存秒开，再静默拉最新
+        var cached = util.getCache(DETAIL_CACHE_PREFIX + id);
+        if(cached) renderArticle(cached);
+
         wp.getData({
           route: 'posts/' + id,
           data: {},
           success: function(data) {
-        
-            detailVm.title = util.sanitize(data.title.rendered);
-            detailVm.content = util.sanitize(data.content.rendered);
-            detailVm.time = util.formatDate(data.date);
-            detailVm.url = data.link;
-            detailVm.loading = 0;
-            Vue.nextTick(function() {
-              Prism.highlightAll();
-              
-            })
-
+            util.setCache(DETAIL_CACHE_PREFIX + id, data);
+            renderArticle(data);
           },
           error: function() {
-            detailVm.loading = 0;
-            mui.alert('文章找不到了~')
+            // 有缓存就继续展示缓存，不弹窗打扰
+            if(!cached) {
+              detailVm.loading = 0;
+              mui.alert('文章找不到了~');
+            }
           }
         })
-        wp.getData({
-          route: 'users/' + author,
-          data: {},
-          success: function(data) {
-            detailVm.author = data.name;
-            detailVm.author_id = data.id;
-          },
-          error: function() {}
-        })
+        if(detail.author) {
+          wp.getData({
+            route: 'users/' + detail.author,
+            data: {},
+            success: function(data) {
+              detailVm.author = data.name;
+              detailVm.author_id = data.id;
+            },
+            error: function() {}
+          })
+        }
         wp.getData({
           route: 'tags/',
           data: {
@@ -229,6 +258,8 @@
           error: function() {}
         })
       });
+      /* 正文图片点击全屏预览（事件委托，v-html 更新后无需重绑） */
+      util.bindImagePreview(document.getElementById('article-body'));
       mui('body').on('tap', 'a', function(e) {
         var url = this.getAttribute("href");
         // 只拦截 http(s) 外链，避免 javascript:/相对路径被误处理
@@ -240,7 +271,14 @@
         }
       });
       document.getElementById('righticon').addEventListener('tap', function() {
-        shareSystem(detailVm.title + ' 地址：' + detailVm.url);
+        if(detailVm.loading || !detailVm.title) {
+          mui.toast('文章还没加载好，稍等一下');
+          return;
+        }
+        // 标题是富文本，分享前必须转纯文本，否则会带出 <p> 之类的标签
+        var text = plainText(detailVm.title);
+        if(detailVm.url) text += ' ' + detailVm.url;
+        shareSystem(text);
       })
       mui.plusReady(function() {
         // 更新系统分享服务列表（Android / iOS 通用）

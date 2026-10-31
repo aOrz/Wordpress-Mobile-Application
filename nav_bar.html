@@ -55,12 +55,13 @@
   <body>
     <nav id="nav_bar" class="mui-bar mui-bar-tab">
       <a v-for="(item,index) in items" 
-      	class="tab-item tab-item" 
-      	:class="item.catid == catid?'mui-active':''" 
+      	class="tab-item" 
+      	:class="(item.catid == catid) || (!catid && index === 0) ? 'mui-active' : ''" 
       	@click="getlist" 
       	:data-catid="item.catid"
       	:data-name="item.name" 
-      	:data-id="item.catid">
+      	:data-id="item.catid"
+      	:aria-label="item.name">
         <span class="mui-icon" :class="item.class"></span>
         <span class="mui-tab-label">{{item.name}}</span>
       </a>

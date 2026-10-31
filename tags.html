@@ -34,9 +34,10 @@
 						<span :data-name = "item.name" 
 							:data-id = "item.id" 
 							class="mui-badge" 
-							:class="style[parseInt(Math.random()*6)]">{{item.name}}</span>
+							:class="style[index % style.length]">{{item.name}}</span>
 					</a>
 				</div>
+				<p class="tags-empty" v-if="loaded && !hot_tags.length">暂无热门标签</p>
 			</div>
 		</div>
 		<script src="js/mui.min.js"></script>
@@ -45,14 +46,21 @@
 		<script>
 			mui.init();
 			var wp = new WP();
+			var TAGS_CACHE_KEY = 'tags';
 			var tags = new Vue({
 				el: '#content_tags',
 				data: {
-					hot_tags: util.getCache('tags') || [],
-					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
+					hot_tags: util.getCache(TAGS_CACHE_KEY) || [],
+					loaded: false,
+					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple']
 				},
 				methods: {
 					getTags: function() {
+						// 缓存新鲜就不打网络，避免每次进搜索页都重复请求
+						if(tags.hot_tags.length && util.isFresh(TAGS_CACHE_KEY)) {
+							tags.loaded = true;
+							return;
+						}
 						wp.getData({
 							route: 'tags',
 							data: {
@@ -61,9 +69,15 @@
 								per_page: 50
 							},
 							success: function(data) {
-								util.setCache('tags', data);
+								var list = data || [];
+								util.setCache(TAGS_CACHE_KEY, list);
 								// 整表替换而不是追加，避免与缓存数据重复渲染
-								tags.$data.hot_tags = data;
+								tags.$data.hot_tags = list;
+								tags.loaded = true;
+							},
+							error: function() {
+								tags.loaded = true;
+								if(!tags.hot_tags.length) mui.toast('标签加载失败，请检查网络');
 							}
 						});
 					},
@@ -87,23 +101,37 @@
 			});
 			tags.getTags();
 			var search = document.getElementById('search');
-			search.addEventListener('keydown',function(event){
-				if(event.keyCode==13){
-					var searchcont = search.value.trim();
-					if(!searchcont) return;
-					var index = plus.webview.getLaunchWebview();
-						mui.fire(index, 'title', {
-								title_name: searchcont
-							})
-							//						console.log(id)
-						var list = plus.webview.getWebviewById('list.html');
-						mui.fire(list, 'reload', {
-							page: 1,
-							context: 'embed',
-							search: searchcont,
-						});
-						mui.back()
+			var composing = false; // 中文输入法组合状态，避免选词回车被当成搜索
+			function doSearch() {
+				var searchcont = (search.value || '').trim();
+				if(!searchcont) return;
+				var index = plus.webview.getLaunchWebview();
+				mui.fire(index, 'title', {
+					title_name: searchcont
+				})
+				var list = plus.webview.getWebviewById('list.html');
+				mui.fire(list, 'reload', {
+					page: 1,
+					context: 'embed',
+					search: searchcont,
+				});
+				mui.back()
+			}
+			search.addEventListener('compositionstart', function() {
+				composing = true;
+			});
+			search.addEventListener('compositionend', function() {
+				composing = false;
+			});
+			search.addEventListener('keydown', function(event) {
+				if(event.keyCode == 13 && !composing) {
+					event.preventDefault();
+					doSearch();
 				}
+			})
+			/* 部分输入法只派发 search 事件，不派发回车 */
+			search.addEventListener('search', function() {
+				if(!composing) doSearch();
 			})
 		</script>
 	</body>

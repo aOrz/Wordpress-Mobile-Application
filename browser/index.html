@@ -4,7 +4,8 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <title>首页</title>
+    <meta name="theme-color" content="#33cccc">
+    <title>网页</title>
     <link href="../css/mui.min.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="../css/mystyle.css" />
   </head>
@@ -12,50 +13,61 @@
   <body>
     <header class="mui-bar mui-bar-nav">
       <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-      <h1 class="mui-title" id="title">链接</h1>
+      <h1 class="mui-title" id="title">网页</h1>
     </header>
     <div class="mui-content">
-      <div class="spinner" v-if="loading">
-        <div class="bounce1"></div>
-        <div class="bounce2"></div>
-        <div class="bounce3"></div>
+      <!-- 内嵌网页加载前/失败时的提示（该页无 Vue 实例，纯 DOM 控制） -->
+      <div class="browser-tip" id="tip-wrap">
+        <p class="list-empty-text" id="tip">正在打开网页…</p>
       </div>
     </div>
     <script src="../js/mui.min.js"></script>
-    <script type="text/javascript" src="../js/vue.min.js"></script>
     <script type="text/javascript" charset="UTF-8">
       mui.init();
       mui.plusReady(function() {
-        var view = mui.openWindow({
-          url: localStorage.getItem('newurl'),
-          id: "webviewssss",
-          styles: {
-            top: '45px',
-            bottom: 0,
-            bounce: 'vertical'
-          },
-          createNew: true,
-          show: {
-            autoShow: true
-          },
-          waiting: {
-            autoShow: false, //自动显示等待框，默认为true
-            title: '正在加载...', //等待对话框上显示的提示内容
-          }
-        })
-        view.addEventListener('loaded',function(){
-			document.getElementById('title').innerText = view.getTitle();
-        })
-        var back = mui.back;
-        mui.back = function(){
-        	view.canBack( function(e){
-        		if(e.canBack){
-        			view.back();
-        		}else{
-        			back();
-        		}
-        	} );
+        var tip = document.getElementById('tip');
+        var tipWrap = document.getElementById('tip-wrap');
+        var url = localStorage.getItem('newurl');
+
+        // 没有地址或不是 http(s)，直接给提示，避免打开 null 白屏
+        if(!url || !/^https?:\/\//i.test(url)) {
+          tip.innerText = '链接无效，请返回上一页重试';
+          return;
         }
+
+        var view = plus.webview.create(url, 'webviewssss', {
+          top: '45px',
+          bottom: 0,
+          bounce: 'vertical'
+        });
+
+        view.addEventListener('loaded', function() {
+          if(tipWrap) tipWrap.style.display = 'none';
+          var t = view.getTitle();
+          if(t) document.getElementById('title').innerText = t;
+        }, false);
+
+        view.addEventListener('error', function() {
+          if(tipWrap) tipWrap.style.display = 'block';
+          tip.innerText = '网页打不开，检查下网络后返回重试';
+          document.getElementById('title').innerText = '加载失败';
+        }, false);
+
+        plus.webview.currentWebview().append(view);
+
+        // 返回键：网页内可回退就先回退，否则关闭当前窗口
+        var back = mui.back;
+        mui.back = function() {
+          view.canBack(function(e) {
+            if(e.canBack) {
+              view.back();
+            } else if(typeof back === 'function') {
+              back();
+            } else {
+              plus.webview.currentWebview().close();
+            }
+          });
+        };
       })
     </script>
   </body>
