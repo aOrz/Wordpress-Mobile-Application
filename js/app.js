@@ -300,12 +300,13 @@ var MyHeader = Vue.extend({
 //图文列表组件
 var MyImgList = Vue.extend({
   props: ['title', 'excerpt', 'id', 'author', 'date', 'featured_image_src'],
+  // 摘要用 v-text 输出纯文本：既避免 <p> 套 <p> 的非法嵌套，也彻底屏蔽注入
   template: '<li class="mui-table-view-cell mui-media" :data-id="id" :data-author="author">' +
     '<a href="javascript:;">' +
-    '<img class="mui-media-object mui-pull-left" v-if="featured_image_src" :src="featured_image_src" loading="lazy" decoding="async" alt="" onerror="this.style.visibility=\'hidden\'">' +
+    '<img class="mui-media-object mui-pull-left" v-if="featured_image_src" :src="featured_image_src" loading="lazy" decoding="async" :alt="title" onerror="this.style.visibility=\'hidden\'">' +
     '<div class="mui-media-body mui-ellipsis">' +
     '{{title}}' +
-    '<p class="mui-ellipsis text" v-html="excerpt"></p>' +
+    '<p class="mui-ellipsis text" v-text="excerpt"></p>' +
     '</div>' +
     '</a>' +
     '</li>'

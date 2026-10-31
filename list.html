@@ -49,12 +49,29 @@
       var wp = new WP();
       var LIST_CACHE_PREFIX = 'list:';
 
-      /* 统一清洗接口返回的 HTML，防止注入 */
+      /* 剥标签取纯文本：用 DOMParser 解析，不插入文档，杜绝副作用 */
+      function toPlainText(html) {
+        if(!html) return '';
+        try {
+          var doc = new DOMParser().parseFromString(String(html), 'text/html');
+          return (doc.body.textContent || '').replace(/\s+/g, ' ').trim();
+        } catch (e) {
+          return String(html).replace(/<[^>]*>/g, '');
+        }
+      }
+
+      /*
+       * 列表只渲染纯文本：标题解码实体、摘要截断。
+       * WP 的 excerpt.rendered 自带 <p>，塞进 <p class="mui-ellipsis"> 属非法嵌套，会撑破省略号样式。
+       */
+      var EXCERPT_MAX = 80;
       function normalizePosts(data) {
         return (data || []).map(function(item) {
-          if(item.excerpt && item.excerpt.rendered) {
-            item.excerpt.rendered = util.sanitize(item.excerpt.rendered);
-          }
+          if(item.title) item.title.rendered = toPlainText(item.title.rendered);
+          var text = toPlainText(item.excerpt && item.excerpt.rendered);
+          if(text.length > EXCERPT_MAX) text = text.slice(0, EXCERPT_MAX) + '…';
+          if(!item.excerpt) item.excerpt = {};
+          item.excerpt.rendered = text;
           return item;
         });
       }

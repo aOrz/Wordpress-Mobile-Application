@@ -24,6 +24,16 @@
 						<input type="search" id="search" class="mui-input-clear" placeholder="关键词搜索">
 					</div>
 				</div>
+				<!-- 最近搜索：本地留存，一点即搜 -->
+				<div class="recent-search" v-if="history.length">
+					<div class="recent-head">
+						<span>最近搜索</span>
+						<a class="recent-clear" v-on:click="clearHistory">清空</a>
+					</div>
+					<div class="recent-list">
+						<a class="recent-item" v-for="word in history" :key="word" :data-word="word" v-on:click="useHistory">{{word}}</a>
+					</div>
+				</div>
 				<h5> 热门标签</h5>
 				<div class="hot">
 					<a v-for="(item,index) in hot_tags" 
@@ -47,14 +57,40 @@
 			mui.init();
 			var wp = new WP();
 			var TAGS_CACHE_KEY = 'tags';
+			var SEARCH_HISTORY_KEY = 'search_history';
 			var tags = new Vue({
 				el: '#content_tags',
 				data: {
 					hot_tags: util.getCache(TAGS_CACHE_KEY) || [],
 					loaded: false,
+					history: util.getJSON(SEARCH_HISTORY_KEY, []),
 					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple']
 				},
 				methods: {
+					/* 搜索历史：去重、最新在前、最多 6 条 */
+					pushHistory: function(word) {
+						var list = tags.history.filter(function(w) {
+							return w !== word;
+						});
+						list.unshift(word);
+						list = list.slice(0, 6);
+						tags.history = list;
+						try {
+							localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(list));
+						} catch (e) {}
+					},
+					useHistory: function(event) {
+						var word = event.currentTarget.getAttribute('data-word');
+						if(!word) return;
+						document.getElementById('search').value = word;
+						doSearch();
+					},
+					clearHistory: function() {
+						tags.history = [];
+						try {
+							localStorage.removeItem(SEARCH_HISTORY_KEY);
+						} catch (e) {}
+					},
 					getTags: function() {
 						// 缓存新鲜就不打网络，避免每次进搜索页都重复请求
 						if(tags.hot_tags.length && util.isFresh(TAGS_CACHE_KEY)) {
@@ -105,6 +141,7 @@
 			function doSearch() {
 				var searchcont = (search.value || '').trim();
 				if(!searchcont) return;
+				tags.pushHistory(searchcont); // 记一笔搜索历史，下次进来一点即搜
 				var index = plus.webview.getLaunchWebview();
 				mui.fire(index, 'title', {
 					title_name: searchcont
