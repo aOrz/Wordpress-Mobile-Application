@@ -36,16 +36,14 @@
           },
           createNew: true,
           show: {
-            autoShwo: true
+            autoShow: true
           },
           waiting: {
             autoShow: false, //自动显示等待框，默认为true
             title: '正在加载...', //等待对话框上显示的提示内容
           }
         })
-        console.log(JSON.stringify(view))
         view.addEventListener('loaded',function(){
-        	console.log(document.getElementById('title').value )
 			document.getElementById('title').innerText = view.getTitle();
         })
         var back = mui.back;

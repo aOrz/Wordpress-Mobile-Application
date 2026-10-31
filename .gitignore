@@ -1,1 +1,16 @@
+# HBuilderX 打包产物
 unpackage/**
+*.apk
+*.ipa
+*.wgt
+*.wgtu
+
+# 依赖与本地环境
+node_modules/
+.hbuilderx/
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+npm-debug.log*

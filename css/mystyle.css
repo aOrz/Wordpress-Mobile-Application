@@ -160,3 +160,38 @@
 	height: 50px;
 }
 
+
+/* ============ 体验优化 ============ */
+/* 正文长代码块/宽表格横向滚动，避免撑破移动端布局 */
+.page-content pre {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+	padding: 10px;
+	background: #f6f8fa;
+	border-radius: 6px;
+	font-size: 13px;
+}
+.page-content table {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.page-content img {
+	border-radius: 4px;
+}
+/* 去掉安卓点击时的灰色高亮块，改为透明度反馈 */
+.mui-table-view-cell > a:active,
+.hot a:active {
+	opacity: .6;
+}
+html {
+	-webkit-tap-highlight-color: transparent;
+}
+/* 列表缩略图固定尺寸，避免图片加载完成时列表跳动 */
+.mui-media-object.mui-pull-left {
+	width: 80px;
+	height: 60px;
+	object-fit: cover;
+	background: #f2f2f2;
+}

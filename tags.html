@@ -18,7 +18,7 @@
 		<div id="content_tags">
 			<my-header title="搜索" lefticon="mui-action-back mui-icon-back"></my-header>
 			<div class="mui-content">
-				<div class="mui-content=append">
+				<div class="mui-content-append">
 					<h5>搜索</h5>
 					<div class="mui-input-row mui-search">
 						<input type="search" id="search" class="mui-input-clear" placeholder="关键词搜索">
@@ -48,7 +48,7 @@
 			var tags = new Vue({
 				el: '#content_tags',
 				data: {
-					hot_tags: JSON.parse(localStorage.getItem('tags')) || [],
+					hot_tags: util.getCache('tags') || [],
 					style: ['', 'mui-badge-primary', 'mui-badge-success', 'mui-badge-warning', 'mui-badge-danger', 'mui-badge-purple', ]
 				},
 				methods: {
@@ -61,12 +61,9 @@
 								per_page: 50
 							},
 							success: function(data) {
-								localStorage.setItem('tags', JSON.stringify(data));
-								data.forEach(function(val){
-									tags.$data.hot_tags.push(val);
-								})
-
-								console.log(JSON.stringify(tags.hot_tags))
+								util.setCache('tags', data);
+								// 整表替换而不是追加，避免与缓存数据重复渲染
+								tags.$data.hot_tags = data;
 							}
 						});
 					},
@@ -92,8 +89,8 @@
 			var search = document.getElementById('search');
 			search.addEventListener('keydown',function(event){
 				if(event.keyCode==13){
-					var searchcont = search.value;
-					console.log(searchcont)
+					var searchcont = search.value.trim();
+					if(!searchcont) return;
 					var index = plus.webview.getLaunchWebview();
 						mui.fire(index, 'title', {
 								title_name: searchcont

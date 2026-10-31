@@ -3,7 +3,14 @@
 -------------------
 ### 更新内容
 
-
+2026.10.31：工程与体验优化
+- 修复 `detail.html` 中 `line-height` 缺冒号、`mui-soll` 拼写错误导致正文行高与滚动失效
+- 修复 `tags.html` 中 `mui-content=append`、`browser/index.html` 中 `autoShwo` 拼写错误
+- 接口返回的 HTML 统一做白名单清洗，防 XSS 注入
+- 列表与标签缓存增加 10 分钟过期时间，脏数据不再导致白屏
+- 列表首屏去掉 1 秒硬等待，图片启用懒加载并固定缩略图尺寸，避免列表跳动
+- 系统分享兼容 iOS（改为 `plus.share`，Android 保留 Intent 回落）
+- 清理调试日志、修复隐式全局变量
 
 2017.6.26: 文章列表页增加截图,兼容4.8
 
@@ -21,6 +28,37 @@
 #### 修改底部菜单
 
 在`/js/app.js` 中修改 `nav_bar` 数据可以修改底部菜单栏，其中 `class` 为图标样式，可选样式参考 [所有图标](http://dev.dcloud.net.cn/mui/ui/#icon)
+
+
+### 目录结构
+
+```
+├── index.html          # 主框架页（头部 + 侧滑菜单）
+├── list.html           # 文章列表（下拉刷新 / 上拉加载）
+├── detail.html         # 文章详情（代码高亮 / 分享）
+├── tags.html           # 标签与关键词搜索
+├── nav_bar.html        # 底部导航
+├── browser/index.html  # 站外链接内置浏览器
+├── js/
+│   ├── app.js          # 全局配置、组件、请求封装、工具函数
+│   ├── mui.min.js      # MUI 框架
+│   ├── vue.min.js      # Vue 2
+│   └── prism.js        # 代码高亮
+├── css/                # mui.min.css / mystyle.css（主题色）/ prism.css
+├── fonts/              # mui 图标字体
+└── manifest.json       # 5+ App 打包配置
+```
+
+### 本地调试
+
+无需构建，项目是纯静态页面。用任意静态服务器即可预览（`plus.*` 相关能力需在 HBuilder 真机运行环境中才可用）：
+
+```bash
+npx serve .        # 或 python3 -m http.server 8080
+```
+
+界面相关调试请用 HBuilderX 的「运行到手机或模拟器」。
+
 
 -----------------------
 ### 构建方法

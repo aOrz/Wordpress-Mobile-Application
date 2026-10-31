@@ -79,8 +79,8 @@
         },
         methods: {
           getlist: function(event) {
-          	dataset = event.target.dataset;
-          	fatherDataset = event.target.parentNode.dataset;
+          	var dataset = event.target.dataset;
+          	var fatherDataset = event.target.parentNode.dataset;
             var id = dataset.id || fatherDataset.id;
             var name = dataset.name || fatherDataset.name;
             var catid = dataset.catid || fatherDataset.catid;

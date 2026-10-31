@@ -44,7 +44,7 @@
         display: block;
         font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
         font-size: 16px;
-        line-height 25.6px;
+        line-height: 25.6px;
         margin: 0px;
         padding: 0 10px 10px 10px;
         word-wrap: break-word;
@@ -87,7 +87,7 @@
       <my-header title="文章详情" 
       	righticon="mui-icon-pengyouquan" 
       	lefticon="mui-action-back mui-icon-left-nav"></my-header>
-      <div id="content" class="mui-content page-content mui-soll">
+      <div id="content" class="mui-content page-content mui-scroll">
         <div class="spinner" v-if="loading">
           <div class="bounce1"></div>
           <div class="bounce2"></div>
@@ -193,9 +193,9 @@
           data: {},
           success: function(data) {
         
-            detailVm.title = data.title.rendered;
-            detailVm.content = data.content.rendered;
-            detailVm.time = data.date;
+            detailVm.title = util.sanitize(data.title.rendered);
+            detailVm.content = util.sanitize(data.content.rendered);
+            detailVm.time = util.formatDate(data.date);
             detailVm.url = data.link;
             detailVm.loading = 0;
             Vue.nextTick(function() {
@@ -231,34 +231,21 @@
       });
       mui('body').on('tap', 'a', function(e) {
         var url = this.getAttribute("href");
-        if(url && url[0] != '#') {
+        // 只拦截 http(s) 外链，避免 javascript:/相对路径被误处理
+        if(url && /^https?:\/\//i.test(url)) {
           localStorage.setItem('newurl', url)
-          var browser = mui.openWindow({
+          mui.openWindow({
             url: 'browser/index.html',
           })
         }
       });
-      var shares = null,
-        bhref = false;
-      var Intent = null,
-        File = null,
-        Uri = null,
-        main = null;
       document.getElementById('righticon').addEventListener('tap', function() {
         shareSystem(detailVm.title + ' 地址：' + detailVm.url);
       })
       mui.plusReady(function() {
-
-          // H5 plus事件处理
-          updateSerivces();
-          if(plus.os.name == "Android") {
-            Intent = plus.android.importClass("android.content.Intent");
-            File = plus.android.importClass("java.io.File");
-            Uri = plus.android.importClass("android.net.Uri");
-            main = plus.android.runtimeMainActivity();
-          }
-        })
-        //Prism
+        // 更新系统分享服务列表（Android / iOS 通用）
+        updateSerivces();
+      })
     </script>
   </body>
 

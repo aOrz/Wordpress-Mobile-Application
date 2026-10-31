@@ -10,13 +10,13 @@
 		"name": "1.0.0",/*应用版本名称*/
 		"code": "83"
 	},
-	"description": "",/*应用描述信息*/
+	"description": "奋斗的承诺 - 基于 WordPress REST API 的博客客户端",/*应用描述信息*/
 	"icons": {
 		"72": "icon.png"
 	},
 	"launch_path": "index.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
 	"developer": {
-		"name": "",/*开发者名称*/
+		"name": "Zhen.Wang",/*开发者名称*/
 		"email": "",/*开发者邮箱地址*/
 		"url": "http://www.dcloud.io"
 	},
