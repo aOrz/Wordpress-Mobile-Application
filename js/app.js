@@ -115,8 +115,12 @@ window.util = {
         var name = attr.name.toLowerCase();
         var val = String(attr.value || '');
         var isEvent = name.indexOf('on') === 0;
-        var isBadProto = (name === 'href' || name === 'src' || name === 'xlink:href') &&
-          /^\s*(javascript|vbscript|data:text\/html)/i.test(val);
+        // URL parsers ignore embedded ASCII tabs/newlines. Normalize before
+        // checking protocols, including HTML entity-decoded attribute values.
+        var urlValue = val.replace(/[\u0000-\u0020\u007f]/g, '');
+        var isURL = name === 'href' || name === 'src' || name === 'xlink:href';
+        var isBadProto = isURL &&
+          /^(javascript:|vbscript:|data:(text\/html|application\/xhtml\+xml)(;|,))/i.test(urlValue);
         if(isEvent || name === 'srcdoc' || isBadProto) {
           el.removeAttribute(attr.name);
         }
