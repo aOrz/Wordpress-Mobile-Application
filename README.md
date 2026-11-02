@@ -136,3 +136,7 @@ function get_image_src( $object, $field_name, $request ) {
 The MIT License (MIT)
 
 Copyright (c) 2016 Zhen.Wang
+
+### Sanitizer regression checks
+
+Install the optional test dependency with `npm install --no-save --package-lock=false jsdom@26.1.0`, then run `node tests/sanitize.cjs` (Node.js 18+). These DOM tests cover encoded URL protocols and preserved safe links; they do not replace HBuilder/real-device testing or a complete security audit.
